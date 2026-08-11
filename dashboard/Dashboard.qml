@@ -1,11 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
-import qs.config
-import qs.services
+import Y3s.Tokens
+import Y3s.Globals
 import qs.dashboard
 import qs.dashboard.panels
 import qs.dashboard.system

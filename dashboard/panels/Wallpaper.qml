@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
-import qs.config
-import qs.services
+import Y3s.Tokens
+import Y3s.Globals
 
 Item {
     id: root

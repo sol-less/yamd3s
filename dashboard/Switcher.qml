@@ -1,42 +1,38 @@
+import M3Shapes
 import QtQuick
 import QtQuick.Layouts
-import M3Shapes
-import qs.services
-import qs.config
-import qs.services
+import Y3s.Globals
+import Y3s.Tokens
 
 Rectangle {
-    readonly property var allTabs: [
-        {
-            key: "apps",
-            icon: "\ue5c3",
-            label: "Apps",
-            alwaysOn: true
-        },
-        {
-            key: "wallpaper",
-            icon: "\ue3f4",
-            label: "Wallpaper"
-        },
-        {
-            key: "system",
-            icon: "\ue30a",
-            label: "System"
-        },
-        {
-            key: "music",
-            icon: "\ue405",
-            label: "Music"
-        }
-    ]
+    readonly property var allTabs: [{
+        "key": "apps",
+        "icon": "\ue5c3",
+        "label": "Apps",
+        "alwaysOn": true
+    }, {
+        "key": "wallpaper",
+        "icon": "\ue3f4",
+        "label": "Wallpaper"
+    }, {
+        "key": "system",
+        "icon": "\ue30a",
+        "label": "System"
+    }, {
+        "key": "music",
+        "icon": "\ue405",
+        "label": "Music"
+    }]
     readonly property var tabs: States.visibleTabs
 
     function switcher_tabs_icon(i) {
         return tabs[i].icon;
     }
+
     function switcher_tabs_label(i) {
         return tabs[i].label;
     }
+
     Layout.fillWidth: true
     Layout.preferredHeight: 52
     radius: height / 2
@@ -57,6 +53,7 @@ Rectangle {
                 readonly property bool isActive: States.active_panel === index
                 property real firstIndex: (index === 0 || isActive) ? height / 2 : 6
                 property real lastIndex: (index === tabs.length - 1 || isActive) ? height / 2 : 6
+
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 bottomLeftRadius: firstIndex
@@ -75,17 +72,22 @@ Rectangle {
 
                         Text {
                             id: iconText
+
                             y: 2
                             text: switcher_tabs_icon(tab_slot.index)
                             font.family: "Material Symbols Rounded"
                             font.pixelSize: 16
                             color: tab_slot.isActive ? Colors.roleColor("switcher", "on") : Colors.md3.on_surface_variant
+
                             Behavior on color {
                                 ColorAnimation {
                                     duration: 200
                                 }
+
                             }
+
                         }
+
                     }
 
                     Text {
@@ -94,19 +96,26 @@ Rectangle {
                         font.weight: tab_slot.isActive ? 500 : 400
                         font.pixelSize: 12
                         color: tab_slot.isActive ? Colors.roleColor("switcher", "on") : Colors.md3.on_surface_variant
+
                         Behavior on color {
                             ColorAnimation {
                                 duration: 200
                             }
+
                         }
+
                         Behavior on font.pixelSize {
                             NumberAnimation {
                                 duration: 250
                                 easing.type: Easing.OutQuint
                             }
+
                         }
+
                     }
+
                 }
+
                 MouseArea {
                     anchors.fill: parent
                     onClicked: States.set_panel(tab_slot.index)
@@ -116,6 +125,7 @@ Rectangle {
                     ColorAnimation {
                         duration: 200
                     }
+
                 }
 
                 Behavior on topLeftRadius {
@@ -125,6 +135,7 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
+
                 }
 
                 Behavior on topRightRadius {
@@ -134,6 +145,7 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
+
                 }
 
                 Behavior on bottomLeftRadius {
@@ -143,6 +155,7 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
+
                 }
 
                 Behavior on bottomRightRadius {
@@ -152,8 +165,11 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
+
                 }
+
             }
+
         }
 
         MaterialShape {
@@ -167,6 +183,14 @@ Rectangle {
                 font.family: "Material Symbols Rounded"
                 color: hoverHandler.hovered ? Colors.roleColor("switcher", "on") : Colors.md3.on_surface_variant
                 text: "\ue8b8"
+
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 250
+                    }
+
+                }
+
             }
 
             HoverHandler {
@@ -175,8 +199,18 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: States.toggleLock()
+                onClicked: States.toggleSettings()
             }
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: 250
+                }
+
+            }
+
         }
+
     }
+
 }

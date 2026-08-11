@@ -4,8 +4,11 @@ import Quickshell
 import Quickshell.Io
 import qs.bar
 import qs.dashboard
+import Y3s.Lib
+import Y3s.Globals
 import qs.services
 import qs.lockscreen
+import qs.settings
 
 ShellRoot {
     Variants {
@@ -37,11 +40,17 @@ ShellRoot {
     IpcHandler {
         target: "lock"
         function lock(): void {
-            States.toggleLock();
+            States.requestLock();
         }
     }
 
-    LoadingOverlay {}
+    LoadingOverlay {
+        isActive: MatugenService.isRunning
+    }
 
     LockOverlay {}
+
+    Settings {
+        active: States.settingsOpen
+    }
 }

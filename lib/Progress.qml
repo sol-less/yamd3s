@@ -1,40 +1,27 @@
 import QtQuick
 import QtQuick.Shapes
-import qs.config
+import Y3s.Tokens
 
 Item {
     id: root
 
     property real value: 0.4
-    property string mode: "circular"  // "circular" | "straight"
-    property string type: "normal"    // "normal" | "squiggly"
+    property string mode: "circular" // "circular" | "straight"
+    property string type: "normal" // "normal" | "squiggly"
     property bool slideable: false
-
     property real size: 64
     property real strokeWidth: 3
     property color trackColor: Colors.md3.surface_container_highest
     property color progressColor: Colors.md3.primary
-
     property real squiggleAmplitude: 2
     property real squiggleFrequency: 14
 
     signal moved(real newValue)
 
-    width: mode === "circular" ? size + (type === "squiggly" ? squiggleAmplitude * 2 : 0) : size
-    height: (mode === "circular" ? size : strokeWidth * 3) + (type === "squiggly" ? squiggleAmplitude * 2 : 0)
-    Behavior on value {
-        enabled: !dragArea.pressed
-        SpringAnimation {
-            spring: 3.2
-            damping: 0.35
-            mass: 1
-            epsilon: 0.005
-        }
-    }
-
     function circularProgressPath(frac) {
         if (frac <= 0)
             return "";
+
         const cx = root.width / 2, cy = root.height / 2;
         // Lock the base radius to 'size' instead of root.width/root.height
         const r = root.size / 2 - strokeWidth / 2;
@@ -53,13 +40,16 @@ Item {
         }
         return path;
     }
+
     function straightProgressPath(frac) {
         const w = root.width * frac;
         const midY = root.height / 2;
         if (frac <= 0)
             return `M 0,${midY} L 0,${midY}`;
+
         if (type === "normal")
             return `M 0,${midY} L ${w},${midY}`;
+
         const steps = Math.max(12, Math.floor(w / 4));
         let path = `M 0,${midY}`;
         for (let i = 1; i <= steps; i++) {
@@ -69,6 +59,9 @@ Item {
         }
         return path;
     }
+
+    width: mode === "circular" ? size + (type === "squiggly" ? squiggleAmplitude * 2 : 0) : size
+    height: (mode === "circular" ? size : strokeWidth * 3) + (type === "squiggly" ? squiggleAmplitude * 2 : 0)
 
     Shape {
         visible: root.mode === "circular"
@@ -81,6 +74,7 @@ Item {
             strokeWidth: root.strokeWidth
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
+
             PathAngleArc {
                 centerX: root.width / 2
                 centerY: root.height / 2
@@ -89,6 +83,7 @@ Item {
                 startAngle: -90
                 sweepAngle: 360
             }
+
         }
 
         ShapePath {
@@ -96,6 +91,7 @@ Item {
             strokeWidth: root.strokeWidth
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
+
             PathAngleArc {
                 centerX: root.width / 2
                 centerY: root.height / 2
@@ -104,6 +100,7 @@ Item {
                 startAngle: -90
                 sweepAngle: root.type === "normal" ? root.value * 360 : 0
             }
+
         }
 
         ShapePath {
@@ -111,10 +108,13 @@ Item {
             strokeWidth: root.strokeWidth
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
+
             PathSvg {
                 path: root.type === "squiggly" ? root.circularProgressPath(root.value) : ""
             }
+
         }
+
     }
 
     // ---- straight ----
@@ -127,26 +127,30 @@ Item {
             strokeWidth: root.strokeWidth
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
+
             PathSvg {
                 path: `M 0,${root.height / 2} L ${root.width},${root.height / 2}`
             }
+
         }
+
         ShapePath {
             strokeColor: root.progressColor
             strokeWidth: root.strokeWidth
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
+
             PathSvg {
                 path: root.straightProgressPath(root.value)
             }
+
         }
+
     }
 
     MouseArea {
         id: dragArea
-        anchors.fill: parent
-        enabled: root.slideable
-        cursorShape: root.slideable ? Qt.PointingHandCursor : Qt.ArrowCursor
+
         property alias isDragging: dragArea.pressed
 
         function updateFromPos(mx, my) {
@@ -156,6 +160,7 @@ Item {
                 let angle = Math.atan2(my - cy, mx - cx) + Math.PI / 2;
                 if (angle < 0)
                     angle += Math.PI * 2;
+
                 frac = angle / (Math.PI * 2);
             } else {
                 frac = mx / root.width;
@@ -165,10 +170,29 @@ Item {
             root.moved(frac);
         }
 
-        onPressed: mouse => updateFromPos(mouse.x, mouse.y)
-        onPositionChanged: mouse => {
+        anchors.fill: parent
+        enabled: root.slideable
+        cursorShape: root.slideable ? Qt.PointingHandCursor : Qt.ArrowCursor
+        onPressed: (mouse) => {
+            return updateFromPos(mouse.x, mouse.y);
+        }
+        onPositionChanged: (mouse) => {
             if (pressed)
                 updateFromPos(mouse.x, mouse.y);
+
         }
     }
+
+    Behavior on value {
+        enabled: !dragArea.pressed
+
+        SpringAnimation {
+            spring: 3.2
+            damping: 0.35
+            mass: 1
+            epsilon: 0.005
+        }
+
+    }
+
 }

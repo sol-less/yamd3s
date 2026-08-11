@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
-import qs.config
+import Y3s.Tokens
 import qs.dashboard.music
 
 ColumnLayout {

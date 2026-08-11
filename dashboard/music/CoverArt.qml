@@ -1,50 +1,49 @@
+import M3Shapes
 import QtQuick
 import QtQuick.Effects
-import M3Shapes
-import qs.config
-import qs.services
+import Y3s.Lib
+import Y3s.Tokens
 
 Item {
     id: root
-    implicitWidth: 80
-    implicitHeight: 80
 
     readonly property var shapePool: [MaterialShape.Cookie4Sided, MaterialShape.Cookie6Sided, MaterialShape.Cookie9Sided, MaterialShape.Sunny, MaterialShape.VerySunny, MaterialShape.Flower, MaterialShape.Boom, MaterialShape.Pentagon, MaterialShape.Gem, MaterialShape.Heart, MaterialShape.Squircle]
     property int currentShapeIndex: Math.floor(Math.random() * shapePool.length)
-
     property string oldArtUrl: ""
     property string newArtUrl: ""
 
+    implicitWidth: 80
+    implicitHeight: 80
     Component.onCompleted: {
         root.newArtUrl = Variable.track.artUrl;
     }
 
     Connections {
-        target: Variable.track
         function onArtUrlChanged() {
             const incomingUrl = Variable.track.artUrl;
-
             if (!incomingUrl || incomingUrl === root.newArtUrl)
-                return;
+                return ;
 
             root.oldArtUrl = root.newArtUrl;
             root.newArtUrl = incomingUrl;
-
             root.currentShapeIndex = Math.floor(Math.random() * root.shapePool.length);
-
             newImage.opacity = 0;
             fadeAnimation.restart();
         }
+
+        target: Variable.track
     }
 
     Item {
         id: imageContainer
+
         anchors.fill: parent
         layer.enabled: true
         visible: false
 
         Image {
             id: oldImage
+
             anchors.fill: parent
             source: root.oldArtUrl
             fillMode: Image.PreserveAspectCrop
@@ -55,28 +54,32 @@ Item {
 
         Image {
             id: newImage
+
             anchors.fill: parent
             source: root.newArtUrl
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             sourceSize.width: 160
             sourceSize.height: 160
-            opacity: 1.0
+            opacity: 1
         }
+
     }
 
     NumberAnimation {
         id: fadeAnimation
+
         target: newImage
         property: "opacity"
-        from: 0.0
-        to: 1.0
+        from: 0
+        to: 1
         duration: 400
         easing.type: Easing.InOutQuad
     }
 
     MaterialShape {
         id: materialHandler
+
         anchors.fill: parent
         layer.enabled: true
         visible: false
@@ -91,4 +94,5 @@ Item {
         maskEnabled: true
         maskSource: materialHandler
     }
+
 }

@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 import M3Shapes
-import qs.config
+import Y3s.Tokens
 
 Item {
     id: root

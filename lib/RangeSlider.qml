@@ -1,5 +1,5 @@
 import QtQuick
-import qs.config
+import Y3s.Tokens
 
 Item {
     id: root
@@ -20,25 +20,6 @@ Item {
 
     height: Math.max(trackHeight, handleHeight)
 
-    Behavior on lowValue {
-        enabled: !lowDrag.pressed
-        SpringAnimation {
-            spring: 3.2
-            damping: 0.3
-            mass: 1
-            epsilon: 0.005
-        }
-    }
-    Behavior on highValue {
-        enabled: !highDrag.pressed
-        SpringAnimation {
-            spring: 3.2
-            damping: 0.3
-            mass: 1
-            epsilon: 0.005
-        }
-    }
-
     // full inactive track
     Rectangle {
         anchors.verticalCenter: parent.verticalCenter
@@ -58,22 +39,28 @@ Item {
 
         Behavior on x {
             enabled: !lowDrag.pressed
+
             SpringAnimation {
                 spring: 3.2
                 damping: 0.3
                 mass: 1
                 epsilon: 0.25
             }
+
         }
+
         Behavior on width {
             enabled: !highDrag.pressed
+
             SpringAnimation {
                 spring: 3.2
                 damping: 0.3
                 mass: 1
                 epsilon: 0.25
             }
+
         }
+
     }
 
     // end dots (absolute min/max markers)
@@ -85,6 +72,7 @@ Item {
         radius: width / 2
         color: root.dotColor
     }
+
     Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         x: parent.width - dotSize / 2
@@ -97,6 +85,7 @@ Item {
     // low handle (vertical bar)
     Rectangle {
         id: lowHandle
+
         width: root.handleWidth
         height: lowDrag.pressed ? root.handleHeight * 1.2 : root.handleHeight
         radius: width / 2
@@ -111,38 +100,50 @@ Item {
                 mass: 1
                 epsilon: 0.25
             }
+
         }
+
         Behavior on x {
             enabled: !lowDrag.pressed
+
             SpringAnimation {
                 spring: 3.2
                 damping: 0.3
                 mass: 1
                 epsilon: 0.25
             }
+
         }
+
     }
+
     MouseArea {
         id: lowDrag
-        width: root.handleHeight * 1.5
-        height: root.handleHeight * 1.5
-        anchors.centerIn: lowHandle
+
         function update(mx) {
             const localX = lowHandle.x + mx - width / 2;
             let frac = Math.max(0, Math.min(root.highValue, localX / (root.width - lowHandle.width)));
             root.lowValue = frac;
             root.lowMoved(frac);
         }
-        onPressed: m => update(m.x)
-        onPositionChanged: m => {
+
+        width: root.handleHeight * 1.5
+        height: root.handleHeight * 1.5
+        anchors.centerIn: lowHandle
+        onPressed: (m) => {
+            return update(m.x);
+        }
+        onPositionChanged: (m) => {
             if (pressed)
                 update(m.x);
+
         }
     }
 
     // high handle (vertical bar)
     Rectangle {
         id: highHandle
+
         width: root.handleWidth
         height: highDrag.pressed ? root.handleHeight * 1.2 : root.handleHeight
         radius: width / 2
@@ -157,32 +158,68 @@ Item {
                 mass: 1
                 epsilon: 0.25
             }
+
         }
+
         Behavior on x {
             enabled: !highDrag.pressed
+
             SpringAnimation {
                 spring: 3.2
                 damping: 0.3
                 mass: 1
                 epsilon: 0.25
             }
+
         }
+
     }
+
     MouseArea {
         id: highDrag
-        width: root.handleHeight * 1.5
-        height: root.handleHeight * 1.5
-        anchors.centerIn: highHandle
+
         function update(mx) {
             const localX = highHandle.x + mx - width / 2;
             let frac = Math.max(root.lowValue, Math.min(1, localX / (root.width - highHandle.width)));
             root.highValue = frac;
             root.highMoved(frac);
         }
-        onPressed: m => update(m.x)
-        onPositionChanged: m => {
+
+        width: root.handleHeight * 1.5
+        height: root.handleHeight * 1.5
+        anchors.centerIn: highHandle
+        onPressed: (m) => {
+            return update(m.x);
+        }
+        onPositionChanged: (m) => {
             if (pressed)
                 update(m.x);
+
         }
     }
+
+    Behavior on lowValue {
+        enabled: !lowDrag.pressed
+
+        SpringAnimation {
+            spring: 3.2
+            damping: 0.3
+            mass: 1
+            epsilon: 0.005
+        }
+
+    }
+
+    Behavior on highValue {
+        enabled: !highDrag.pressed
+
+        SpringAnimation {
+            spring: 3.2
+            damping: 0.3
+            mass: 1
+            epsilon: 0.005
+        }
+
+    }
+
 }

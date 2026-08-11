@@ -2,15 +2,16 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
-import qs.config
+import Y3s.Tokens
 
 Rectangle {
     id: root
 
     required property var app_ref
     required property bool is_current
-    signal hovered
-    signal activated
+
+    signal hovered()
+    signal activated()
 
     width: ListView.view ? ListView.view.width : implicitWidth
     height: 48
@@ -29,6 +30,7 @@ Rectangle {
             Layout.preferredHeight: 28
             backer.sourceSize: Qt.size(56, 56)
         }
+
         Text {
             text: root.app_ref.name
             color: root.is_current ? Colors.md3.on_secondary_container : Colors.md3.on_surface
@@ -38,6 +40,7 @@ Rectangle {
             elide: Text.ElideRight
             font.capitalization: Font.Capitalize
         }
+
     }
 
     MouseArea {
@@ -46,4 +49,5 @@ Rectangle {
         onEntered: root.hovered()
         onClicked: root.activated()
     }
+
 }

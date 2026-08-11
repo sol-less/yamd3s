@@ -1,22 +1,23 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
-import qs.config
+import Y3s.Tokens
 import qs.bar.components
 
 PanelWindow {
+    implicitHeight: Metrics.bar_height + 24
+    color: "transparent"
+    WlrLayershell.exclusiveZone: Metrics.bar_height
+
     anchors {
         top: true
         left: true
         right: true
     }
 
-    implicitHeight: Metrics.bar_height + 24
-    color: "transparent"
-    WlrLayershell.exclusiveZone: Metrics.bar_height
-
     Rectangle {
         id: barContainer
+
         implicitHeight: Metrics.bar_height
         implicitWidth: parent.width
         z: -99
@@ -36,6 +37,7 @@ PanelWindow {
             anchors.right: parent.right
             fillColor: parent.color
         }
+
     }
 
     Workspaces {
@@ -54,4 +56,5 @@ PanelWindow {
         anchors.verticalCenter: barContainer.verticalCenter
         anchors.margins: 6
     }
+
 }

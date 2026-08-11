@@ -1,17 +1,20 @@
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Effects
-import qs.config
-import qs.services
+import QtQuick.Layouts
+import Y3s.Globals
+import Y3s.Lib
+import Y3s.Tokens
 import qs.dashboard.music
 
 Item {
     id: root
+
     implicitWidth: Metrics.panelSizes.music.width
     implicitHeight: Metrics.panelSizes.music.height
 
     Image {
         id: backgroundImage
+
         anchors.fill: parent
         source: Variable.track.artUrl
         fillMode: Image.PreserveAspectCrop
@@ -35,34 +38,39 @@ Item {
 
         RowLayout {
             spacing: 14
-            CoverArt {}
+
+            CoverArt {
+            }
+
             Metadata {
                 Layout.fillWidth: true
             }
+
         }
 
         Slider {
             id: progressSlider
+
             Layout.fillWidth: true
             from: 0
             to: Variable.playback.length > 0 ? Variable.playback.length : 1
-
             // 1. Enable slider whenever a player is active (bypasses Spotify's false canSeek flag)
             enabled: Variable.player !== null && Variable.playback.length > 0
             trackColor: Colors.roleColor("music_progress")
-
             // 2. Declarative binding: tracks position when idle, holds drag value when pressed
             value: pressed ? value : Variable.playback.position
-
             // 3. Send position to MPRIS on slider release
             onPressedChanged: {
-                if (!pressed && Variable.player) {
+                if (!pressed && Variable.player)
                     Variable.player.position = value;
-                }
+
             }
         }
+
         TransportControls {
             Layout.alignment: Qt.AlignHCenter
         }
+
     }
+
 }

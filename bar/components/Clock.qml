@@ -3,7 +3,8 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
 import qs.services
-import qs.config
+import Y3s.Tokens
+import Y3s.Lib
 
 Rectangle {
     id: root

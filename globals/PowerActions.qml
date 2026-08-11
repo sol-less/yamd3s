@@ -1,7 +1,8 @@
-pragma Singleton
+import QtQuick
 import Quickshell
+pragma Singleton
 
-Singleton {
+QtObject {
     function shutdown() {
         Quickshell.execDetached(["systemctl", "poweroff"]);
     }
@@ -13,4 +14,5 @@ Singleton {
     function lock() {
         Quickshell.execDetached(["qs", "ipc", "call", "lock", "lock"]);
     }
+
 }

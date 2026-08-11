@@ -1,30 +1,97 @@
-// LockOverlay.qml
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
-import qs.config
-import qs.services
+import Y3s.Globals
+import Y3s.Tokens
+import qs.lockscreen.components
 
 ShellRoot {
     id: root
 
+    property bool isUnlocking: false
+
+    Connections {
+        target: States
+        onStartLockSequence: {
+            root.isUnlocking = false;
+            anim.animStart();
+        }
+    }
+
     LockContext {
         id: lockContext
+
         onUnlocked: {
-            States.lockscreenActive = false;
+            if (!root.isUnlocking)
+                root.isUnlocking = true;
+
         }
     }
 
     WlSessionLock {
         id: lock
-        // Directly bind lock state to global state
+
         locked: States.lockscreenActive
 
         WlSessionLockSurface {
-            LockSurface {
+            Rectangle {
                 anchors.fill: parent
-                context: lockContext
+                color: Colors.md3.background
             }
+
+            Item {
+                id: surfaceWrapper
+
+                anchors.fill: parent
+
+                Connections {
+                    function onIsUnlockingChanged() {
+                        if (root.isUnlocking)
+                            fadeOutAnim.start();
+
+                    }
+
+                    target: root
+                }
+
+                NumberAnimation {
+                    id: fadeOutAnim
+
+                    target: surfaceWrapper
+                    property: "opacity"
+                    to: 0
+                    duration: 300
+                    easing.type: Easing.InQuint
+                    onFinished: {
+                        States.lockscreenActive = false;
+                    }
+                }
+
+                LockSurface {
+                    id: visualLockSurface
+
+                    anchors.fill: parent
+                    context: lockContext
+                }
+
+                NumberAnimation on opacity {
+                    from: 0
+                    to: 1
+                    duration: 300
+                    easing.type: Easing.OutQuint
+                }
+
+            }
+
         }
+
     }
+
+    LockAnim {
+        id: anim
+
+        onAnimStopped: States.lockscreenActive = true
+        baseAnimLength: 2
+    }
+
 }

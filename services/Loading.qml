@@ -1,34 +1,25 @@
-import QtQuick
 import M3Shapes
-import qs.config
+import QtQuick
+import Y3s.Tokens
 
 MaterialShape {
     id: root
+
     property bool active: false
+    readonly property var shapeSequence: [MaterialShape.Cookie4Sided, MaterialShape.Pill, MaterialShape.Sunny, MaterialShape.Cookie9Sided, MaterialShape.Pentagon, MaterialShape.VerySunny, MaterialShape.Oval]
+    property int sequenceIndex: 0
+    property real baseRotation: 0
+    property real burstRotation: 0
+    property real baseScale: 1
+    property real burstScaleOffset: 0
 
     width: 64
     height: 64
     color: Colors.md3.primary
     animationDuration: 650
     animationEasing.type: Easing.OutBack
-    readonly property var shapeSequence: [MaterialShape.Cookie4Sided, MaterialShape.Pill, MaterialShape.Sunny, MaterialShape.Cookie9Sided, MaterialShape.Pentagon, MaterialShape.VerySunny, MaterialShape.Oval]
-
-    property int sequenceIndex: 0
-    property real baseRotation: 0
-    property real burstRotation: 0
     rotation: baseRotation + burstRotation
-
-    property real baseScale: 1
-    property real burstScaleOffset: 0
     scale: baseScale + burstScaleOffset
-
-    NumberAnimation on baseRotation {
-        running: root.active
-        loops: Animation.Infinite
-        from: 0
-        to: 360
-        duration: 3200
-    }
 
     Timer {
         interval: 1000
@@ -45,6 +36,7 @@ MaterialShape {
 
     SequentialAnimation {
         id: rotationBurst
+
         NumberAnimation {
             target: root
             property: "burstRotation"
@@ -52,10 +44,12 @@ MaterialShape {
             duration: 260
             easing.type: Easing.OutQuint
         }
+
     }
 
     SequentialAnimation {
         id: scaleBurst
+
         NumberAnimation {
             target: root
             property: "burstScaleOffset"
@@ -63,6 +57,7 @@ MaterialShape {
             duration: 220
             easing.type: Easing.OutQuint
         }
+
         NumberAnimation {
             target: root
             property: "burstScaleOffset"
@@ -70,5 +65,15 @@ MaterialShape {
             duration: 400
             easing.type: Easing.OutQuint
         }
+
     }
+
+    NumberAnimation on baseRotation {
+        running: root.active
+        loops: Animation.Infinite
+        from: 0
+        to: 360
+        duration: 3200
+    }
+
 }

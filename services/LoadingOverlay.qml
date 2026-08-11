@@ -1,20 +1,19 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
-import qs.config
+import Y3s.Tokens
 import qs.services
 
 PanelWindow {
     id: overlay
 
-    visible: MatugenService.isRunning
-    color: Qt.alpha(Colors.md3.background, 0.85)
+    property bool isActive: false
 
-    Behavior on color {
-        ColorAnimation {
-            duration: 250
-        }
-    }
+    visible: isActive
+    color: Qt.alpha(Colors.md3.background, 0.85)
+    exclusionMode: ExclusionMode.Ignore
+    WlrLayershell.layer: WlrLayershell.Overlay
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None // don't steal input, this is just visual feedback
 
     anchors {
         top: true
@@ -23,12 +22,16 @@ PanelWindow {
         right: true
     }
 
-    exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.layer: WlrLayershell.Overlay
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None  // don't steal input, this is just visual feedback
-
     Loading {
-        active: MatugenService.isRunning
+        active: overlay.isActive
         anchors.centerIn: parent
     }
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 250
+        }
+
+    }
+
 }

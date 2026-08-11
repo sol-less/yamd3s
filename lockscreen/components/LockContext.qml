@@ -1,4 +1,3 @@
-// services/LockContext.qml
 import QtQuick
 import Quickshell
 import Quickshell.Services.Pam
