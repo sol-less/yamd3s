@@ -5,6 +5,7 @@ import Quickshell.Wayland
 import Quickshell.Hyprland
 import Y3s.Tokens
 import Y3s.Globals
+import Y3s.Lib
 import qs.dashboard
 import qs.dashboard.panels
 import qs.dashboard.system

@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import Y3s.Lib
 import Y3s.Tokens
 import qs.bar.components
 
@@ -27,7 +28,7 @@ PanelWindow {
             r: 24
             anchors.top: parent.bottom
             anchors.left: parent.left
-            fillColor: parent.color
+            fillColor: barContainer.color
         }
 
         Corners {
@@ -35,7 +36,7 @@ PanelWindow {
             r: 24
             anchors.top: parent.bottom
             anchors.right: parent.right
-            fillColor: parent.color
+            fillColor: barContainer.color
         }
 
     }

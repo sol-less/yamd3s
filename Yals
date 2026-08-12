@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/quickshell"
+BUILD_DIR="$CONFIG_DIR/build"
+
+if [ ! -d "$BUILD_DIR" ]; then
+    echo "[-] Build directory not found at $BUILD_DIR"
+    echo "[*] Please run cmake inside $CONFIG_DIR first."
+    exit 1
+fi
+
+export QML2_IMPORT_PATH="$BUILD_DIR:$QML2_IMPORT_PATH"
+export QML_IMPORT_PATH="$BUILD_DIR:$QML_IMPORT_PATH"
+
+if [ "$1" = "-d" ] || [ "$1" = "--detach" ]; then
+    shift
+    echo "[*] Launching yamd3s in background..."
+    quickshell "$@" > /dev/null 2>&1 &
+    disown
+    echo "[+] Done."
+else
+    echo "[*] Launching yamd3s..."
+    exec quickshell "$@"
+fi

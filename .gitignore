@@ -1,2 +1,4 @@
 .qmlls.ini
 build/
+*.so
+.rcc/
