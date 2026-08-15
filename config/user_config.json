@@ -1,17 +1,35 @@
 {
-  "theme_roles": {
-    "workspaces": "primary",
-    "clock": "primary",
-    "switcher": "primary",
-    "music_progress": "secondary",
-    "music_play_button": "primary",
-    "volume_icon": "tertiary",
-    "brightness_icon": "tertiary",
-    "powermenu": "secondary"
-  },
-  "activated_tabs": {
-    "wallpaper": true,
-    "system": true,
-    "music": true
-  }
+    "theme_roles": {
+        "workspaces": "tertiary",
+        "clock": "secondary",
+        "switcher": "secondary",
+        "music_progress": "secondary",
+        "music_play_button": "primary",
+        "volume_icon": "tertiary",
+        "brightness_icon": "tertiary",
+        "powermenu": "error"
+    },
+    "activated_tabs": {
+        "wallpaper": true,
+        "system": true,
+        "music": true
+    },
+    "panel_sizes": {
+        "apps": {
+            "width": 565,
+            "height": 500
+        },
+        "wallpaper": {
+            "width": 700,
+            "height": 420
+        },
+        "system": {
+            "width": 755,
+            "height": 245
+        },
+        "music": {
+            "width": 570,
+            "height": 225
+        }
+    }
 }

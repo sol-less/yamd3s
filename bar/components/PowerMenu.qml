@@ -29,14 +29,14 @@ Item {
             delegate: MaterialShape {
                 width: 28
                 height: 28
-                color: mouseHandler.containsMouse ? Colors.roleColor("powermenu") : Colors.md3.surface_container_highest
+                color: mouseHandler.containsMouse ? Colors.roleColor("powermenu", "container") : "transparent"
                 scale: mouseHandler.containsMouse ? 1.2 : 1
-                shape: mouseHandler.containsMouse ? MaterialShape.Cookie7Sided : MaterialShape.Cookie4Sided
+                shape: MaterialShape.Cookie7Sided
 
                 Text {
                     anchors.centerIn: parent
                     text: modelData.text
-                    color: mouseHandler.containsMouse ? Colors.md3.surface_container_highest : Colors.md3.secondary
+                    color: mouseHandler.containsMouse ? Colors.roleColor("powermenu", "on_container") : Colors.md3.on_surface_variant
                     font.family: "Material Symbols Rounded"
 
                     Behavior on color {

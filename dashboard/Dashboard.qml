@@ -38,9 +38,8 @@ PanelWindow {
             target: dashboard
             property: "openProgress"
             to: 1
-            duration: 380
-            easing.type: Easing.OutBack
-            easing.overshoot: 1.4
+            duration: 350
+            easing.type: Easing.OutQuint
         }
         ScriptAction {
             script: focus_grab.active = true
@@ -65,10 +64,7 @@ PanelWindow {
     }
 
     anchors {
-        top: true
-    }
-    margins {
-        top: Metrics.bar_height
+        bottom: true
     }
 
     color: "transparent"
@@ -91,7 +87,7 @@ PanelWindow {
 
     Item {
         id: revealWrapper
-        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: panelBody.width + 48
         height: panelBody.height * dashboard.openProgress
@@ -126,9 +122,9 @@ PanelWindow {
                 }
             }
 
-            bottomLeftRadius: 24
-            bottomRightRadius: 24
-            color: Colors.md3.surface_container
+            topLeftRadius: 24
+            topRightRadius: 24
+            color: Colors.md3.surface_container_low
             clip: false
 
             ColumnLayout {
@@ -176,8 +172,7 @@ PanelWindow {
                                 property: "y"
                                 to: 0
                                 duration: 320
-                                easing.type: Easing.OutBack
-                                easing.overshoot: 1.5
+                                easing.type: Easing.OutQuad
                             }
                         }
                     }
@@ -204,18 +199,18 @@ PanelWindow {
         }
 
         Corners {
-            corner: 1
+            corner: 2
             r: 24
             fillColor: panelBody.color
-            anchors.top: panelBody.top
+            anchors.bottom: panelBody.bottom
             anchors.right: panelBody.left
             opacity: panelBody.opacity
         }
         Corners {
-            corner: 0
+            corner: 3
             r: 24
             fillColor: panelBody.color
-            anchors.top: panelBody.top
+            anchors.bottom: panelBody.bottom
             anchors.left: panelBody.right
             opacity: panelBody.opacity
         }

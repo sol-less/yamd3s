@@ -29,7 +29,7 @@ ShellRoot {
                 States.dashboardToggle();
             }
             function open(): void {
-                States.dashboardOpenSet();
+                States.dashboardOpen();
             }
             function close(): void {
                 States.dashboardClose();
@@ -41,6 +41,13 @@ ShellRoot {
         target: "lock"
         function lock(): void {
             States.requestLock();
+        }
+    }
+
+    IpcHandler {
+        target: "shell"
+        function refresh(): void {
+            Quickshell.reload()
         }
     }
 

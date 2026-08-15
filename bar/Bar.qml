@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 import Y3s.Lib
@@ -6,7 +7,9 @@ import Y3s.Tokens
 import qs.bar.components
 
 PanelWindow {
-    implicitHeight: Metrics.bar_height + 24
+    id: root
+
+    height: Metrics.bar_height
     color: "transparent"
     WlrLayershell.exclusiveZone: Metrics.bar_height
 
@@ -19,43 +22,58 @@ PanelWindow {
     Rectangle {
         id: barContainer
 
-        implicitHeight: Metrics.bar_height
-        implicitWidth: parent.width
-        z: -99
-        color: Colors.md3.surface_container
+        anchors.centerIn: parent
+        height: Metrics.bar_height
+        width: rowContainer.implicitWidth + 12
+        color: Colors.md3.surface_container_low
+        bottomLeftRadius: 12
+        bottomRightRadius: 12
 
         Corners {
-            r: 24
-            anchors.top: parent.bottom
-            anchors.left: parent.left
-            fillColor: barContainer.color
+            r: 12
+            corner: 4
+            anchors.top: parent.top
+            anchors.left: parent.right
+            fillColor: parent.color
         }
 
         Corners {
+            r: 12
             corner: 1
-            r: 24
-            anchors.top: parent.bottom
-            anchors.right: parent.right
-            fillColor: barContainer.color
+            anchors.top: parent.top
+            anchors.right: parent.left
+            fillColor: parent.color
         }
 
-    }
+        RowLayout {
+            id: rowContainer
 
-    Workspaces {
-        anchors.left: barContainer.left
-        anchors.verticalCenter: barContainer.verticalCenter
-        anchors.margins: 6
-    }
+            anchors.centerIn: parent
+            spacing: 12
 
-    Clock {
-        anchors.centerIn: barContainer
-        height: barContainer.height - 12
-    }
+            Workspaces {
+                Layout.alignment: Qt.AlignVCenter
+            }
 
-    PowerMenu {
-        anchors.right: barContainer.right
-        anchors.verticalCenter: barContainer.verticalCenter
-        anchors.margins: 6
+            Item {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.fillHeight: true
+                Layout.preferredWidth: clock.width
+
+                Clock {
+                    id: clock
+
+                    height: barContainer.height - 12
+                }
+
+            }
+
+            PowerMenu {
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+        }
+
     }
 
 }

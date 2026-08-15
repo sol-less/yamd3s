@@ -37,6 +37,29 @@ Rectangle {
     Layout.preferredHeight: 52
     radius: height / 2
     color: Colors.md3.surface_container_high
+    focus: true
+
+    Shortcut {
+        sequence: "Shift+Tab"
+        onActivated: {
+            let prevIndex = States.active_panel - 1;
+            if (prevIndex < 0)
+                prevIndex = tabs.length - 1;
+
+            States.set_panel(prevIndex);
+        }
+    }
+
+    Shortcut {
+        sequence: "Tab"
+        onActivated: {
+            let nextIndex = States.active_panel + 1;
+            if (nextIndex >= tabs.length)
+                nextIndex = 0;
+
+            States.set_panel(nextIndex);
+        }
+    }
 
     RowLayout {
         anchors.fill: parent
@@ -60,7 +83,7 @@ Rectangle {
                 topLeftRadius: firstIndex
                 bottomRightRadius: lastIndex
                 topRightRadius: lastIndex
-                color: isActive ? Colors.roleColor("switcher") : Colors.md3.surface_container_highest
+                color: isActive ? Colors.roleColor("switcher", "container") : "transparent"
 
                 RowLayout {
                     anchors.centerIn: parent
@@ -77,7 +100,7 @@ Rectangle {
                             text: switcher_tabs_icon(tab_slot.index)
                             font.family: "Material Symbols Rounded"
                             font.pixelSize: 16
-                            color: tab_slot.isActive ? Colors.roleColor("switcher", "on") : Colors.md3.on_surface_variant
+                            color: tab_slot.isActive ? Colors.roleColor("switcher", "on_container") : Colors.md3.on_surface_variant
 
                             Behavior on color {
                                 ColorAnimation {
@@ -95,7 +118,7 @@ Rectangle {
                         font.family: "Google Sans"
                         font.weight: tab_slot.isActive ? 500 : 400
                         font.pixelSize: 12
-                        color: tab_slot.isActive ? Colors.roleColor("switcher", "on") : Colors.md3.on_surface_variant
+                        color: tab_slot.isActive ? Colors.roleColor("switcher", "on_container") : Colors.md3.on_surface_variant
 
                         Behavior on color {
                             ColorAnimation {

@@ -7,8 +7,8 @@ import Y3s.Tokens
 
 Item {
     id: root
-    height: parent.height
-    width: row.width
+    implicitHeight: row.implicitHeight
+    implicitWidth: row.implicitWidth
 
     RowLayout {
         id: row
@@ -28,7 +28,8 @@ Item {
                 MaterialShape {
                     anchors.fill: parent
                     shape: dot_slot.focused ? MaterialShape.Cookie7Sided : MaterialShape.Circle
-                    color: dot_slot.focused ? Colors.roleColor("workspaces") : Colors.md3.surface_container_highest
+                    color: dot_slot.focused ? Colors.roleColor("workspaces") : Colors.md3.on_surface_variant
+                    opacity: dot_slot.focused ? 1.0 : 0.2
                     animationDuration: 350
                     animationEasing.type: Easing.OutBack
                     rotation: mouseHandler.containsMouse ? -20 : 0
@@ -49,6 +50,13 @@ Item {
                     Behavior on color {
                         ColorAnimation {
                             duration: 250
+                        }
+                    }
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 250
+                            easing.type: Easing.OutQuad
                         }
                     }
                 }
