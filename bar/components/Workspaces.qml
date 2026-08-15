@@ -9,6 +9,19 @@ Item {
     id: root
     implicitHeight: row.implicitHeight
     implicitWidth: row.implicitWidth
+    readonly property int activeWorkspaceId: Hyprland.focusedWorkspace?.id ?? 0
+    property bool recentlyChanged: false
+
+    onActiveWorkspaceIdChanged: {
+        recentlyChanged = true;
+        wsTimer.restart();
+    }
+
+    Timer {
+        id: wsTimer
+        interval: 1000
+        onTriggered: root.recentlyChanged = false
+    }
 
     RowLayout {
         id: row

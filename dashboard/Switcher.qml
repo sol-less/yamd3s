@@ -42,7 +42,7 @@ Rectangle {
     Shortcut {
         sequence: "Shift+Tab"
         onActivated: {
-            let prevIndex = States.active_panel - 1;
+            let prevIndex = States.activePanel - 1;
             if (prevIndex < 0)
                 prevIndex = tabs.length - 1;
 

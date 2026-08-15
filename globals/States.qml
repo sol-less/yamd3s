@@ -14,7 +14,7 @@ QtObject {
     property bool settingsOpen: false
     // Derived from Config singleton
     readonly property var visibleTabs: Config.allTabs.filter((t) => {
-        return t.alwaysOn || Config.dashboardActiveTabs[t.key];
+        return t.alwaysOn || Config.activatedTabs[t.key];
     })
 
     signal startLockSequence()

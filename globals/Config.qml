@@ -4,17 +4,17 @@ import Quickshell.Io
 pragma Singleton
 
 QtObject {
-    // Keep default empty object on error
-
     id: root
 
     readonly property string userConfigPath: Quickshell.shellDir + "/config/user_config.json"
-    property var dashboardActiveTabs: ({
+    property var activatedTabs: ({
         "wallpaper": true,
         "system": true,
         "music": true
     })
-    // ---- Tab Definitions ----
+    property var others: ({
+        "autoHideBar": true
+    })
     readonly property var settingTabs: [{
         "label": "General",
         "icon": ""
@@ -43,48 +43,45 @@ QtObject {
         "icon": "\ue405",
         "label": "Music"
     }]
-    // ---- File Handler ----
-    property FileView activeTabsFile
+    property FileView configFile
 
-    // ---- Helper Methods ----
-    function setTabActive(tabKey, enabled) {
-        const updated = Object.assign({
-        }, dashboardActiveTabs);
-        updated[tabKey] = enabled;
-        dashboardActiveTabs = updated;
-        saveConfig();
-    }
-
-    function saveConfig() {
-        let fullConfig = {
-        };
-        try {
-            fullConfig = JSON.parse(activeTabsFile.text());
-        } catch (e) {
-        }
-        fullConfig.activated_tabs = root.dashboardActiveTabs;
-        activeTabsFile.setText(JSON.stringify(fullConfig, null, 2));
-    }
-
-    activeTabsFile: FileView {
-        id: activeTabsFile
-
+    configFile: FileView {
         path: root.userConfigPath
         watchChanges: true
         onFileChanged: reload()
         onLoaded: {
             try {
                 const data = JSON.parse(text());
-                if (data.activated_tabs)
-                    root.dashboardActiveTabs = data.activated_tabs;
+                if (data.activatedTabs)
+                    root.activatedTabs = data.activatedTabs;
+
+                if (data.others)
+                    root.others = data.others;
 
             } catch (e) {
                 console.warn("Config.qml: cannot parse user_config.json, using defaults");
             }
         }
-        onLoadFailed: (error) => {
-            console.warn("Config.qml: user_config.json not found (" + error + "), using defaults");
+    }
+
+    function setTabActive(tabKey, enabled) {
+        activatedTabs = Object.assign({
+        }, activatedTabs, {
+            [tabKey]: enabled
+        });
+        saveConfig();
+    }
+
+    function saveConfig() {
+        let config = {
+        };
+        try {
+            config = JSON.parse(configFile.text());
+        } catch (e) {
         }
+        config.activatedTabs = root.activatedTabs;
+        config.others = root.others;
+        configFile.setText(JSON.stringify(config, null, 2));
     }
 
 }

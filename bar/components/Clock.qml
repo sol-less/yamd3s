@@ -18,6 +18,8 @@ Rectangle {
     readonly property real clockWidth: (mouseHandler.containsMouse ? dateText.implicitWidth : timeText.implicitWidth) + 24
     readonly property real sliderWidth: 220
 
+    signal volumeChange()
+
     function setVolumeIcon() {
         if (root.isMuted) {
             return "\ue04f";
@@ -189,6 +191,7 @@ Rectangle {
                 thumbHeight: parent.height * 2
                 enabled: !root.isMuted
                 onPressedChanged: root.currentVolume = value
+                onValueChanged: root.volumeChange()
             }
         }
     }

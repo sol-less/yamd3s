@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import Y3s.Globals
 import Y3s.Lib
 import Y3s.Tokens
 import qs.bar.components
@@ -9,9 +10,11 @@ import qs.bar.components
 PanelWindow {
     id: root
 
-    height: Metrics.bar_height
+    property bool isHovered: Config.others.autoHideBar ? (hoverHandler.hovered || clock.moduleIndex === 1 || workspaces.recentlyChanged) : true
+
+    height: Metrics.barHeight
     color: "transparent"
-    WlrLayershell.exclusiveZone: Metrics.bar_height
+    WlrLayershell.exclusiveZone: Config.others.autoHideBar ? Metrics.barHeight - 24 : Metrics.barHeight
 
     anchors {
         top: true
@@ -22,28 +25,13 @@ PanelWindow {
     Rectangle {
         id: barContainer
 
-        anchors.centerIn: parent
-        height: Metrics.bar_height
+        anchors.horizontalCenter: parent.horizontalCenter
+        height: Metrics.barHeight
         width: rowContainer.implicitWidth + 12
         color: Colors.md3.surface_container_low
-        bottomLeftRadius: 12
-        bottomRightRadius: 12
-
-        Corners {
-            r: 12
-            corner: 4
-            anchors.top: parent.top
-            anchors.left: parent.right
-            fillColor: parent.color
-        }
-
-        Corners {
-            r: 12
-            corner: 1
-            anchors.top: parent.top
-            anchors.right: parent.left
-            fillColor: parent.color
-        }
+        bottomLeftRadius: root.isHovered ? 12 : 10
+        bottomRightRadius: root.isHovered ? 12 : 10
+        y: root.isHovered ? 0 : -height + 16
 
         RowLayout {
             id: rowContainer
@@ -52,13 +40,26 @@ PanelWindow {
             spacing: 12
 
             Workspaces {
+                id: workspaces
+
                 Layout.alignment: Qt.AlignVCenter
+                opacity: root.isHovered ? 1 : 0
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 350
+                        easing.type: Easing.OutQuad
+                    }
+
+                }
+
             }
 
             Item {
                 Layout.alignment: Qt.AlignVCenter
                 Layout.fillHeight: true
                 Layout.preferredWidth: clock.width
+                opacity: root.isHovered ? 1 : 0
 
                 Clock {
                     id: clock
@@ -66,14 +67,60 @@ PanelWindow {
                     height: barContainer.height - 12
                 }
 
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 350
+                        easing.type: Easing.OutQuad
+                    }
+
+                }
+
             }
 
             PowerMenu {
                 Layout.alignment: Qt.AlignVCenter
+                opacity: root.isHovered ? 1 : 0
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 350
+                        easing.type: Easing.OutQuad
+                    }
+
+                }
+
             }
 
         }
 
+        HoverHandler {
+            id: hoverHandler
+        }
+
+        Behavior on y {
+            NumberAnimation {
+                duration: 350
+                easing.type: Easing.OutQuad
+            }
+
+        }
+
+    }
+
+    Corners {
+        r: 12
+        corner: 0
+        anchors.top: parent.top
+        anchors.left: barContainer.right
+        fillColor: barContainer.color
+    }
+
+    Corners {
+        r: 12
+        corner: 1
+        anchors.top: parent.top
+        anchors.right: barContainer.left
+        fillColor: barContainer.color
     }
 
 }

@@ -1,35 +1,26 @@
 {
-    "theme_roles": {
+    "themeRoles": {
         "workspaces": "tertiary",
         "clock": "secondary",
         "switcher": "secondary",
-        "music_progress": "secondary",
-        "music_play_button": "primary",
-        "volume_icon": "tertiary",
-        "brightness_icon": "tertiary",
+        "musicProgress": "secondary",
+        "musicPlayButton": "primary",
+        "volumeIcon": "tertiary",
+        "brightnessIcon": "tertiary",
         "powermenu": "error"
     },
-    "activated_tabs": {
+    "activatedTabs": {
         "wallpaper": true,
         "system": true,
         "music": true
     },
-    "panel_sizes": {
-        "apps": {
-            "width": 565,
-            "height": 500
-        },
-        "wallpaper": {
-            "width": 700,
-            "height": 420
-        },
-        "system": {
-            "width": 755,
-            "height": 245
-        },
-        "music": {
-            "width": 570,
-            "height": 225
-        }
+    "panelSizes": {
+        "apps": { "width": 565, "height": 500 },
+        "wallpaper": { "width": 700, "height": 420 },
+        "system": { "width": 755, "height": 245 },
+        "music": { "width": 570, "height": 225 }
+    },
+    "others": {
+        "autoHideBar": true
     }
 }
