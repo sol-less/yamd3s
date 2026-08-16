@@ -14,7 +14,7 @@ PanelWindow {
     id: dashboard
 
     property bool surfaceVisible: false
-    readonly property string currentTabKey: States.visibleTabs[States.active_panel]?.key ?? "apps"
+    readonly property string currentTabKey: States.visibleTabs[States.activePanel]?.key ?? "apps"
     visible: surfaceVisible
 
     property real openProgress: 0
@@ -69,7 +69,7 @@ PanelWindow {
 
     color: "transparent"
     implicitWidth: Metrics.panelMaxWidth + 80
-    implicitHeight: Metrics.panelMaxHeight + 40
+    implicitHeight: Metrics.panelMaxHeight
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayershell.Overlay
     WlrLayershell.keyboardFocus: States.dashboardOpen ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None

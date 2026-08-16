@@ -10,8 +10,17 @@ import qs.bar.components
 PanelWindow {
     id: root
 
-    property bool isHovered: Config.others.autoHideBar ? (hoverHandler.hovered || clock.moduleIndex === 1 || workspaces.recentlyChanged) : true
+    property bool modulesActive: hoverHandler.hovered || clock.moduleIndex === 1 || workspaces.recentlyChanged
+    property bool isHovered: Config.others.autoHideBar ? (modulesActive || timerHandler.running) : true
 
+    onModulesActiveChanged: {
+        if (Config.others.autoHideBar) {
+            if (!modulesActive)
+                timerHandler.restart();
+            else
+                timerHandler.stop();
+        }
+    }
     height: Metrics.barHeight
     color: "transparent"
     WlrLayershell.exclusiveZone: Config.others.autoHideBar ? Metrics.barHeight - 24 : Metrics.barHeight
@@ -20,6 +29,13 @@ PanelWindow {
         top: true
         left: true
         right: true
+    }
+
+    Timer {
+        id: timerHandler
+
+        running: false
+        interval: 1000
     }
 
     Rectangle {

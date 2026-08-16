@@ -26,50 +26,7 @@ QtObject {
         "powermenu": "secondary"
     })
     property FileView userConfigFile
-
-    userConfigFile: FileView {
-        path: root.rolesPath
-        watchChanges: true
-        onFileChanged: reload()
-        onLoaded: {
-            try {
-                const data = JSON.parse(text());
-                if (data.themeRoles)
-                    root.themeRoles = data.themeRoles;
-
-            } catch (e) {
-                console.warn("Colors.qml: failed to parse user_config.json");
-            }
-        }
-        onLoadFailed: () => {
-            return saveRoles();
-        }
-    }
-
     property FileView colorsFile
-
-    colorsFile: FileView {
-        path: root.colorsPath
-        watchChanges: true
-        onFileChanged: reload()
-        onLoaded: {
-            try {
-                const data = JSON.parse(text());
-                if (data.md3)
-                    root.md3 = data.md3;
-
-                if (data.palette)
-                    root.palette = data.palette;
-
-                if (data.base16)
-                    root.base16 = data.base16;
-
-                root.loaded = true;
-            } catch (e) {
-                console.warn("Colors.qml: failed to parse matugen JSON");
-            }
-        }
-    }
 
     function setRole(moduleKey, role) {
         themeRoles = Object.assign({
@@ -102,6 +59,48 @@ QtObject {
         }
         config.themeRoles = root.themeRoles;
         userConfigFile.setText(JSON.stringify(config, null, 2));
+    }
+
+    userConfigFile: FileView {
+        path: root.rolesPath
+        watchChanges: true
+        onFileChanged: reload()
+        onLoaded: {
+            try {
+                const data = JSON.parse(text());
+                if (data.themeRoles)
+                    root.themeRoles = data.themeRoles;
+
+            } catch (e) {
+                console.warn("Colors.qml: failed to parse user_config.json");
+            }
+        }
+        onLoadFailed: () => {
+            return saveRoles();
+        }
+    }
+
+    colorsFile: FileView {
+        path: root.colorsPath
+        watchChanges: true
+        onFileChanged: reload()
+        onLoaded: {
+            try {
+                const data = JSON.parse(text());
+                if (data.md3)
+                    root.md3 = data.md3;
+
+                if (data.palette)
+                    root.palette = data.palette;
+
+                if (data.base16)
+                    root.base16 = data.base16;
+
+                root.loaded = true;
+            } catch (e) {
+                console.warn("Colors.qml: failed to parse matugen JSON");
+            }
+        }
     }
 
 }

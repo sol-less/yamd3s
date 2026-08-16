@@ -8,7 +8,7 @@ QtObject {
 
     // ---- UI State Properties ----
     property bool dashboardActive: false
-    property int active_panel: 0
+    property int activePanel: 0
     property int currentSettingTab: 0
     property bool lockscreenActive: false
     property bool settingsOpen: false
@@ -20,8 +20,8 @@ QtObject {
     signal startLockSequence()
 
     // ---- Helper Functions ----
-    function set_panel(index) {
-        active_panel = index;
+    function setPanel(index) {
+        activePanel = index;
     }
 
     function dashboardToggle() {
@@ -37,7 +37,7 @@ QtObject {
 
     function dashboardClose() {
         dashboardActive = false;
-        active_panel = 0;
+        activePanel = 0;
     }
 
     function toggleLock() {
@@ -70,8 +70,8 @@ QtObject {
 
     // Bound guard check: keep panel within visible range when tabs are toggled off
     onVisibleTabsChanged: {
-        if (root.active_panel >= root.visibleTabs.length)
-            root.active_panel = 0;
+        if (root.activePanel >= root.visibleTabs.length)
+            root.activePanel = 0;
 
     }
 }

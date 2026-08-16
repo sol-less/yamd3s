@@ -7,7 +7,8 @@
         "musicPlayButton": "primary",
         "volumeIcon": "tertiary",
         "brightnessIcon": "tertiary",
-        "powermenu": "error"
+        "powermenu": "error",
+        "mainBackground": "surface_container_low"
     },
     "activatedTabs": {
         "wallpaper": true,
@@ -15,10 +16,22 @@
         "music": true
     },
     "panelSizes": {
-        "apps": { "width": 565, "height": 500 },
-        "wallpaper": { "width": 700, "height": 420 },
-        "system": { "width": 755, "height": 245 },
-        "music": { "width": 570, "height": 225 }
+        "apps": {
+            "width": 565,
+            "height": 350
+        },
+        "wallpaper": {
+            "width": 700,
+            "height": 420
+        },
+        "system": {
+            "width": 755,
+            "height": 245
+        },
+        "music": {
+            "width": 570,
+            "height": 225
+        }
     },
     "others": {
         "autoHideBar": true

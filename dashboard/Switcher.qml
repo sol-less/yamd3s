@@ -46,18 +46,18 @@ Rectangle {
             if (prevIndex < 0)
                 prevIndex = tabs.length - 1;
 
-            States.set_panel(prevIndex);
+            States.setPanel(prevIndex);
         }
     }
 
     Shortcut {
         sequence: "Tab"
         onActivated: {
-            let nextIndex = States.active_panel + 1;
+            let nextIndex = States.activePanel + 1;
             if (nextIndex >= tabs.length)
                 nextIndex = 0;
 
-            States.set_panel(nextIndex);
+            States.setPanel(nextIndex);
         }
     }
 
@@ -73,7 +73,7 @@ Rectangle {
                 id: tab_slot
 
                 required property int index
-                readonly property bool isActive: States.active_panel === index
+                readonly property bool isActive: States.activePanel === index
                 property real firstIndex: (index === 0 || isActive) ? height / 2 : 6
                 property real lastIndex: (index === tabs.length - 1 || isActive) ? height / 2 : 6
 
@@ -141,7 +141,7 @@ Rectangle {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: States.set_panel(tab_slot.index)
+                    onClicked: States.setPanel(tab_slot.index)
                 }
 
                 Behavior on color {
