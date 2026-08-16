@@ -12,23 +12,23 @@
 </details>
 
 # About
-**Yamd3s** is a Quickshell dotfile that is based on **Material Design 3**
+**Yamd3s** is a Quickshell dotfile based on **Material Design 3**.
 
 # Installation
 > [!IMPORTANT]
-> Download each dependencies **on your own system package manager**, and is recommended using **Arch Linux** as because this was originally made on Arch.
+> Install each dependency **via your system's package manager**. **Arch Linux** is highly recommended, as this project was originally built on it.
 
 ## Required dependencies
-- ```hyprland```
-- ```quickshell-git```
-- ```matugen``` (accessible through [here](https://github.com/InioX/matugen))
-- ```yacli``` (optional, but recommended. Install through [here](https://github.com/sol-less/yacli))
-- ```yay``` (or ```paru``` for installing ```quickshell-git```)
-- ```git```
+- `hyprland`
+- `quickshell-git`
+- `matugen` (accessible [here](https://github.com/InioX/matugen))
+- `yacli` (optional, but recommended. Install [here](https://github.com/sol-less/yacli))
+- `yay` (or `paru` for installing `quickshell-git`)
+- `git`
 
-## Method 1 : Manual Installation
+## Method 1: Manual Installation
 > [!NOTE]
-> You will need ```.config/``` directory for this to work, or just use ```qs -c yamd3s/```
+> You will need a `.config/` directory for this to work, or just use `cd yamd3s/ && chmod +x Yals && ./yamd3s/Yals`.
 
 ```bash
 git clone https://github.com/sol-less/yamd3s.git
@@ -36,20 +36,67 @@ cd yamd3s/
 chmod +x Yals
 ```
 
-## Method 2 : Through Yacli
+## Method 2: Through Yacli
 > [!IMPORTANT]
-> This has **yet** not implemented, since Yacli is a new tool.
+> This is not **yet** implemented, as Yacli is a new tool.
 
 # Usage
 > [!NOTE]
-> You will have **2 methods**, through ./Yals or yacli
+> You have **2 methods** to run this: through `./Yals` or `yacli`.
 
-## Method 1 : Manual Run
+## Method 1: Manual Run
 ```bash
 ./Yals
 ```
 
-## Method 2 : Yacli Run
+## Method 2: Yacli Run
 ```bash
 yacli shell run
+```
+
+# Configuration
+You can configure the `user_config.json` file at `<PROJECT_DIR>/config/user_config.json`.
+
+**Default configuration:**
+
+```json
+{
+    "themeRoles": {
+        "workspaces": "tertiary",
+        "clock": "secondary",
+        "switcher": "secondary",
+        "musicProgress": "secondary",
+        "musicPlayButton": "primary",
+        "volumeIcon": "tertiary",
+        "brightnessIcon": "tertiary",
+        "powermenu": "error",
+        "mainBackground": "surface_container_low"
+    },
+    "activatedTabs": {
+        "wallpaper": true,
+        "system": true,
+        "music": true
+    },
+    "panelSizes": {
+        "apps": {
+            "width": 565,
+            "height": 350
+        },
+        "wallpaper": {
+            "width": 700,
+            "height": 420
+        },
+        "system": {
+            "width": 755,
+            "height": 245
+        },
+        "music": {
+            "width": 570,
+            "height": 225
+        }
+    },
+    "others": {
+        "autoHideBar": true
+    }
+}
 ```
