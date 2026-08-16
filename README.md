@@ -7,7 +7,7 @@
 <details>
   <summary><b>Preview</b></summary>
   <div align="center">
-    <img width="75%" alt="2026-08-06_21-03-15" src="https://github.com/user-attachments/assets/e975e26d-9046-4b09-bace-815bf59f76d9" />
+    <img width="50%" alt="2026-08-16_15-10-28" src="https://github.com/user-attachments/assets/d0bd9677-b984-4687-ae02-6cf4e0945b95" />
   </div>
 </details>
 
