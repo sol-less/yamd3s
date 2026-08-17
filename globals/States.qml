@@ -6,20 +6,17 @@ pragma Singleton
 QtObject {
     id: root
 
-    // ---- UI State Properties ----
     property bool dashboardActive: false
     property int activePanel: 0
     property int currentSettingTab: 0
     property bool lockscreenActive: false
     property bool settingsOpen: false
-    // Derived from Config singleton
     readonly property var visibleTabs: Config.allTabs.filter((t) => {
         return t.alwaysOn || Config.activatedTabs[t.key];
     })
 
     signal startLockSequence()
 
-    // ---- Helper Functions ----
     function setPanel(index) {
         activePanel = index;
     }
@@ -37,7 +34,6 @@ QtObject {
 
     function dashboardClose() {
         dashboardActive = false;
-        activePanel = 0;
     }
 
     function toggleLock() {
@@ -68,7 +64,6 @@ QtObject {
         settingsOpen = false;
     }
 
-    // Bound guard check: keep panel within visible range when tabs are toggled off
     onVisibleTabsChanged: {
         if (root.activePanel >= root.visibleTabs.length)
             root.activePanel = 0;

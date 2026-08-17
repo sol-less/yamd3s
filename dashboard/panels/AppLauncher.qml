@@ -6,6 +6,8 @@ import Y3s.Tokens
 import qs.dashboard.launcher
 
 Item {
+    property bool notFocus: search_bar.text.length === 0
+
     implicitWidth: Metrics.panelSizes.apps.width
     implicitHeight: Metrics.panelSizes.apps.height
 
@@ -34,7 +36,7 @@ Item {
         Search {
             id: search_bar
 
-            onEscape_pressed: States.dashboardClose()
+            onEscape_pressed: search_bar.clearOpen()
             onMove_down: app_list.incrementCurrentIndex()
             onMove_up: app_list.decrementCurrentIndex()
             onConfirm: {

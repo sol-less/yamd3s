@@ -3,10 +3,10 @@ import QtQuick.Layouts
 import Y3s.Globals
 import Y3s.Tokens
 
-Rectangle {
+Item {
     id: root
 
-    property alias text: search_field.text
+    property alias text: searchField.text
 
     signal escape_pressed()
     signal move_down()
@@ -14,57 +14,110 @@ Rectangle {
     signal confirm()
 
     function focusInput() {
-        search_field.forceActiveFocus();
+        searchField.forceActiveFocus();
     }
 
     function clear() {
-        search_field.text = "";
+        searchField.text = "";
+    }
+
+    function clearOpen() {
+        searchField.focus = null;
+        root.clear();
     }
 
     Layout.fillWidth: true
-    Layout.preferredHeight: 48
-    color: Colors.md3.surface_container_high
-    radius: height / 2
+    Layout.preferredHeight: 36
 
-    Connections {
-        function onDashboardActiveChanged() {
-            if (States.dashboardOpen)
-                root.clear();
+    Rectangle {
+        id: holder
+
+        property bool isOpen: hoverHandler.hovered || (text.length > 0 || searchField.activeFocus)
+
+        color: Colors.md3.surface_container_high
+        radius: height / 2
+        height: isOpen ? 36 : 12
+        width: isOpen ? parent.width : parent.width / 3
+        anchors.centerIn: parent
+
+        Connections {
+            function onDashboardActiveChanged() {
+                if (States.dashboardOpen)
+                    root.clear();
+
+            }
+
+            target: States
+        }
+
+        HoverHandler {
+            id: hoverHandler
+        }
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
+            spacing: 8
+
+            TextInput {
+                id: searchField
+
+                Layout.fillWidth: true
+                color: Colors.md3.on_surface
+                font.family: "Google Sans"
+                font.pixelSize: 15
+                font.weight: 500
+                clip: true
+                Keys.onEscapePressed: root.escape_pressed()
+                Keys.onDownPressed: root.move_down()
+                Keys.onUpPressed: root.move_up()
+                Keys.onReturnPressed: root.confirm()
+                opacity: holder.isOpen ? 1 : 0
+
+                Text {
+                    visible: searchField.text.length === 0
+                    text: "Search apps..."
+                    color: Colors.md3.outline
+                    font: searchField.font
+                    opacity: 0.9
+                }
+
+                MouseArea {
+                    id: mouse
+
+                    anchors.fill: parent
+                    propagateComposedEvents: true
+                    onClicked: {
+                        mouse.accepted = false;
+                        root.focusInput();
+                    }
+                }
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 350
+                        easing.type: Easing.OutQuint
+                    }
+
+                }
+
+            }
 
         }
 
-        target: States
-    }
-
-    RowLayout {
-        anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-        spacing: 8
-
-        TextInput {
-            id: search_field
-
-            Layout.fillWidth: true
-            color: Colors.md3.on_surface
-            font.family: "Google Sans"
-            font.pixelSize: 15
-            clip: true
-            Keys.onEscapePressed: root.escape_pressed()
-            Keys.onDownPressed: root.move_down()
-            Keys.onUpPressed: root.move_up()
-            Keys.onReturnPressed: root.confirm()
-
-            Text {
-                visible: search_field.text.length === 0
-                text: "Search apps..."
-                color: Colors.md3.outline
-                font: search_field.font
-                opacity: 0.9
+        Behavior on height {
+            NumberAnimation {
+                duration: 350
+                easing.type: Easing.OutQuint
             }
 
-            HoverHandler {
-                cursorShape: Qt.IBeamCursor
+        }
+
+        Behavior on width {
+            NumberAnimation {
+                duration: 350
+                easing.type: Easing.OutQuint
             }
 
         }

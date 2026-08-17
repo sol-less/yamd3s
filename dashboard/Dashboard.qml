@@ -79,7 +79,7 @@ PanelWindow {
         windows: [dashboard]
 
         onCleared: {
-            if (States.dashboardActive) {
+            if (States.dashboardActive && appLauncherPanel.notFocus === true ) {
                 States.dashboardClose();
             }
         }
@@ -182,7 +182,9 @@ PanelWindow {
 
             Component {
                 id: appLauncherPanel
-                AppLauncher {}
+                AppLauncher {
+
+                }
             }
             Component {
                 id: wallpaperPanel

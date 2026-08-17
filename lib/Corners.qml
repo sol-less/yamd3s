@@ -13,11 +13,15 @@ Shape {
     clip: true
     rotation: corner * 90
     transformOrigin: Item.Center
+    layer.enabled: true
+    layer.samples: 4
 
     ShapePath {
+        id: shapePath
+
         fillColor: root.fillColor
-        strokeColor: root.fillColor
-        strokeWidth: -1
+        strokeColor: "transparent"
+        strokeWidth: 0
         startX: 0
         startY: 0
 

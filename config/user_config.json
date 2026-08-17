@@ -34,6 +34,7 @@
         }
     },
     "others": {
-        "autoHideBar": true
+        "autoHideBar": true,
+        "launcherType": "grid"
     }
 }

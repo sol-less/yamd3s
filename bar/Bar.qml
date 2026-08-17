@@ -35,7 +35,7 @@ PanelWindow {
         id: timerHandler
 
         running: false
-        interval: 1000
+        interval: 500
     }
 
     Rectangle {

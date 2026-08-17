@@ -54,12 +54,9 @@ Item {
             Layout.fillWidth: true
             from: 0
             to: Variable.playback.length > 0 ? Variable.playback.length : 1
-            // 1. Enable slider whenever a player is active (bypasses Spotify's false canSeek flag)
             enabled: Variable.player !== null && Variable.playback.length > 0
             trackColor: Colors.roleColor("music_progress")
-            // 2. Declarative binding: tracks position when idle, holds drag value when pressed
             value: pressed ? value : Variable.playback.position
-            // 3. Send position to MPRIS on slider release
             onPressedChanged: {
                 if (!pressed && Variable.player)
                     Variable.player.position = value;

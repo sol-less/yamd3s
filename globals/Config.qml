@@ -13,7 +13,8 @@ QtObject {
         "music": true
     })
     property var others: ({
-        "autoHideBar": true
+        "autoHideBar": true,
+        "launcherType": "list"
     })
     readonly property var settingTabs: [{
         "label": "General",
@@ -45,25 +46,6 @@ QtObject {
     }]
     property FileView configFile
 
-    configFile: FileView {
-        path: root.userConfigPath
-        watchChanges: true
-        onFileChanged: reload()
-        onLoaded: {
-            try {
-                const data = JSON.parse(text());
-                if (data.activatedTabs)
-                    root.activatedTabs = data.activatedTabs;
-
-                if (data.others)
-                    root.others = data.others;
-
-            } catch (e) {
-                console.warn("Config.qml: cannot parse user_config.json, using defaults");
-            }
-        }
-    }
-
     function setTabActive(tabKey, enabled) {
         activatedTabs = Object.assign({
         }, activatedTabs, {
@@ -82,6 +64,25 @@ QtObject {
         config.activatedTabs = root.activatedTabs;
         config.others = root.others;
         configFile.setText(JSON.stringify(config, null, 2));
+    }
+
+    configFile: FileView {
+        path: root.userConfigPath
+        watchChanges: true
+        onFileChanged: reload()
+        onLoaded: {
+            try {
+                const data = JSON.parse(text());
+                if (data.activatedTabs)
+                    root.activatedTabs = data.activatedTabs;
+
+                if (data.others)
+                    root.others = data.others;
+
+            } catch (e) {
+                console.warn("Config.qml: cannot parse user_config.json, using defaults");
+            }
+        }
     }
 
 }

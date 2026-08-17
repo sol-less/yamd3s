@@ -190,7 +190,11 @@ Rectangle {
                 trackHeight: parent.height + 5
                 thumbHeight: parent.height * 2
                 enabled: !root.isMuted
-                onPressedChanged: root.currentVolume = value
+                onPressedChanged: {
+                    if (!pressed) {
+                        root.currentVolume = value;
+                    }
+                }
                 onValueChanged: root.volumeChange()
             }
         }
