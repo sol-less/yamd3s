@@ -37,8 +37,11 @@ chmod +x Yals
 ```
 
 ## Method 2: Through Yacli
-> [!IMPORTANT]
-> This is not **yet** implemented, as Yacli is a new tool.
+After installing [Yacli](https://github.com/sol-less/yacli), go ahead do this command:
+
+```bash
+yacli install
+```
 
 # Usage
 > [!NOTE]
