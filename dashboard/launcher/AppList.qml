@@ -6,7 +6,7 @@ GridView {
     id: root
 
     property var app_ref_current: currentItem?.app_ref ?? null
-    signal app_activated(var app)
+    signal appActivated(var app)
     property bool gridMode: Config.others.launcherType === "grid"
 
     clip: true
@@ -28,6 +28,6 @@ GridView {
         is_current: root.currentIndex === index
 
         onHovered: root.currentIndex = index
-        onActivated: root.app_activated(modelData)
+        onActivated: root.appActivated(modelData)
     }
 }

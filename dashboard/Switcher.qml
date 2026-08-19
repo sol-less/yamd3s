@@ -5,24 +5,7 @@ import Y3s.Globals
 import Y3s.Tokens
 
 Rectangle {
-    readonly property var allTabs: [{
-        "key": "apps",
-        "icon": "\ue5c3",
-        "label": "Apps",
-        "alwaysOn": true
-    }, {
-        "key": "wallpaper",
-        "icon": "\ue3f4",
-        "label": "Wallpaper"
-    }, {
-        "key": "system",
-        "icon": "\ue30a",
-        "label": "System"
-    }, {
-        "key": "music",
-        "icon": "\ue405",
-        "label": "Music"
-    }]
+    readonly property var allTabs: Config.allTabs
     readonly property var tabs: States.visibleTabs
 
     function switcher_tabs_icon(i) {

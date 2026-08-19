@@ -48,6 +48,7 @@ PanelWindow {
         bottomLeftRadius: root.isHovered ? 12 : 10
         bottomRightRadius: root.isHovered ? 12 : 10
         y: root.isHovered ? 0 : -height + 16
+        clip: true
 
         RowLayout {
             id: rowContainer

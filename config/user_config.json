@@ -13,7 +13,8 @@
     "activatedTabs": {
         "wallpaper": true,
         "system": true,
-        "music": true
+        "music": true,
+        "notifications": true
     },
     "panelSizes": {
         "apps": {
@@ -29,12 +30,16 @@
             "height": 245
         },
         "music": {
-            "width": 570,
+            "width": 580,
             "height": 225
+        },
+        "notifications": {
+            "width": 650,
+            "height": 375
         }
     },
     "others": {
         "autoHideBar": true,
-        "launcherType": "grid"
+        "launcherType": "list"
     }
 }

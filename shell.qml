@@ -20,6 +20,15 @@ ShellRoot {
         }
     }
 
+    Variants {
+        model: Quickshell.screens
+        LoadingOverlay {
+            required property var modelData
+            screen: modelData
+            isActive: MatugenService.isRunning
+        }
+    }
+
     Dashboard {
         id: dashboard
 
@@ -49,10 +58,6 @@ ShellRoot {
         function refresh(): void {
             Quickshell.reload(true)
         }
-    }
-
-    LoadingOverlay {
-        isActive: MatugenService.isRunning
     }
 
     LockOverlay {}

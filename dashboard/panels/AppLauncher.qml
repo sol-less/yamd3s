@@ -6,7 +6,10 @@ import Y3s.Tokens
 import qs.dashboard.launcher
 
 Item {
+    id: root
+
     property bool notFocus: search_bar.text.length === 0
+    property bool isGridMode: Config.others.launcherType === "grid"
 
     implicitWidth: Metrics.panelSizes.apps.width
     implicitHeight: Metrics.panelSizes.apps.height
@@ -36,9 +39,11 @@ Item {
         Search {
             id: search_bar
 
-            onEscape_pressed: search_bar.clearOpen()
-            onMove_down: app_list.incrementCurrentIndex()
-            onMove_up: app_list.decrementCurrentIndex()
+            onEscapePressed: search_bar.clearOpen()
+            onMoveDown: app_list.moveCurrentIndexDown()
+            onMoveUp: app_list.moveCurrentIndexUp()
+            onMoveLeft: root.isGridMode ? app_list.moveCurrentIndexLeft() : null
+            onMoveRight: root.isGridMode ? app_list.moveCurrentIndexRight() : null
             onConfirm: {
                 if (app_list.app_ref_current)
                     rootColumn.activate_app(app_list.app_ref_current);
@@ -52,7 +57,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: rootColumn.filteredApps
-            onApp_activated: (app) => {
+            onAppActivated: (app) => {
                 return rootColumn.activate_app(app);
             }
         }

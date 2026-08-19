@@ -32,6 +32,10 @@ QtObject {
         "music": {
             "width": 570,
             "height": 225
+        },
+        "notifications": {
+            "width": 200,
+            "height": 150
         }
     })
     property FileView panelSizeFile

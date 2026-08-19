@@ -8,9 +8,11 @@ Item {
 
     property alias text: searchField.text
 
-    signal escape_pressed()
-    signal move_down()
-    signal move_up()
+    signal escapePressed()
+    signal moveDown()
+    signal moveUp()
+    signal moveLeft()
+    signal moveRight()
     signal confirm()
 
     function focusInput() {
@@ -69,9 +71,11 @@ Item {
                 font.pixelSize: 15
                 font.weight: 500
                 clip: true
-                Keys.onEscapePressed: root.escape_pressed()
-                Keys.onDownPressed: root.move_down()
-                Keys.onUpPressed: root.move_up()
+                Keys.onEscapePressed: root.escapePressed()
+                Keys.onDownPressed: root.moveDown()
+                Keys.onUpPressed: root.moveUp()
+                Keys.onLeftPressed: root.moveLeft()
+                Keys.onRightPressed: root.moveRight()
                 Keys.onReturnPressed: root.confirm()
                 opacity: holder.isOpen ? 1 : 0
 

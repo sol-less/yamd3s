@@ -10,7 +10,8 @@ QtObject {
     property var activatedTabs: ({
         "wallpaper": true,
         "system": true,
-        "music": true
+        "music": true,
+        "notifications": true
     })
     property var others: ({
         "autoHideBar": true,
@@ -43,6 +44,10 @@ QtObject {
         "key": "music",
         "icon": "\ue405",
         "label": "Music"
+    }, {
+        "key": "notifications",
+        "icon": "\ue7f4",
+        "label": "Notifications"
     }]
     property FileView configFile
 

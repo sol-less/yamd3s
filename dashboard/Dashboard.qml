@@ -139,7 +139,7 @@ PanelWindow {
                     Layout.fillHeight: true
 
                     sourceComponent: {
-                        switch (currentTabKey) {
+                        switch (dashboard.currentTabKey) {
                         case "apps":
                             return appLauncherPanel;
                         case "wallpaper":
@@ -148,6 +148,8 @@ PanelWindow {
                             return systemInfoPanel;
                         case "music":
                             return musicPanel;
+                        case "notifications":
+                            return notificationPanel
                         default:
                             return appLauncherPanel;
                         }
@@ -183,7 +185,6 @@ PanelWindow {
             Component {
                 id: appLauncherPanel
                 AppLauncher {
-
                 }
             }
             Component {
@@ -197,6 +198,10 @@ PanelWindow {
             Component {
                 id: musicPanel
                 Music {}
+            }
+            Component {
+                id: notificationPanel
+                Notifications {}
             }
         }
 
