@@ -9,6 +9,8 @@ import Y3s.Globals
 import qs.services
 import qs.lockscreen
 import qs.settings
+import qs.notifications
+import qs.dashboard.notifications
 
 ShellRoot {
     Variants {
@@ -59,6 +61,8 @@ ShellRoot {
             Quickshell.reload(true)
         }
     }
+
+    NotifDisplay {}
 
     LockOverlay {}
 
