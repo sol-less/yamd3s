@@ -1,0 +1,9 @@
+{
+    "panelSizes": {
+        "apps": { "width": 565, "height": 350 },
+        "wallpaper": { "width": 700, "height": 420 },
+        "system": { "width": 755, "height": 245 },
+        "music": { "width": 580, "height": 225 },
+        "notifications": { "width": 650, "height": 375 }
+    }
+}

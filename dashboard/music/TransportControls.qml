@@ -1,66 +1,131 @@
 import M3Shapes
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import Y3s.Lib
 import Y3s.Tokens
 
-RowLayout {
-    id: root
+Item {
+    height: 50
 
-    spacing: 24
+    RowLayout {
+        id: root
 
-    Repeater {
-        model: [{
-            "action": () => {
-                return Variable.player.previous();
-            },
-            "icon": "\ue045",
-            "shape": MaterialShape.Square,
-            "enabled": Variable.capabilities.canGoPrevious
-        }, {
-            "action": () => {
-                Variable.player.isPlaying = !Variable.player.isPlaying;
-            },
-            "icon": Variable.playback.isPlaying ? "\ue034" : "\ue037",
-            "shape": Variable.playback.isPlaying ? MaterialShape.Square : MaterialShape.Circle,
-            "enabled": Variable.capabilities.canTogglePlaying
-        }, {
-            "action": () => {
-                return Variable.player.next();
-            },
-            "icon": "\ue044",
-            "shape": MaterialShape.Square,
-            "enabled": Variable.capabilities.canGoNext
-        }]
+        anchors.centerIn: parent
+        spacing: 4
+        z: 0
 
-        delegate: MaterialShape {
-            id: btnDelegate
+        Repeater {
+            model: [{
+                "id": "prev",
+                "action": () => {
+                    return Variable.player.previous();
+                },
+                "icon": "\ue045"
+            }, {
+                "id": "playpause",
+                "action": () => {
+                    return Variable.player.isPlaying = !Variable.player.isPlaying;
+                },
+                "icon": ""
+            }, {
+                "id": "next",
+                "action": () => {
+                    return Variable.player.next();
+                },
+                "icon": "\ue044"
+            }]
 
-            required property var modelData
-            required property var index
+            delegate: Button {
+                id: btnDelegate
 
-            width: 40
-            height: 40
-            shape: index === 1 ? (mouseHandler.containsMouse ? MaterialShape.Square : MaterialShape.Cookie4Sided) : (mouseHandler.containsMouse ? MaterialShape.Cookie6Sided : MaterialShape.Circle)
-            color: Colors.md3.primary
-            animationDuration: 300
-            animationEasing.type: Easing.OutBack
+                required property var modelData
+                required property var index
+                property real dynamicScale: down ? 0.95 : (hoverHandler.hovered ? 1.05 : 1)
 
-            Text {
-                anchors.centerIn: parent
-                text: btnDelegate.modelData.icon
-                font.family: "Material Symbols Rounded"
-                font.pixelSize: 20
-                color: Colors.md3.on_primary
-            }
+                onClicked: modelData.action()
+                hoverEnabled: false
+                implicitWidth: (btnDelegate.index === 1 ? 100 : 70) * dynamicScale
+                implicitHeight: 40 * dynamicScale
+                enabled: {
+                    if (modelData.id === "prev")
+                        return Variable.capabilities.canGoPrevious;
 
-            MouseArea {
-                id: mouseHandler
+                    if (modelData.id === "playpause")
+                        return Variable.capabilities.canTogglePlaying;
 
-                anchors.fill: parent
-                hoverEnabled: true
-                enabled: btnDelegate.modelData.enabled
-                onClicked: btnDelegate.modelData.action()
+                    if (modelData.id === "next")
+                        return Variable.capabilities.canGoNext;
+
+                    return false;
+                }
+
+                HoverHandler {
+                    id: hoverHandler
+                }
+
+                Behavior on dynamicScale {
+                    NumberAnimation {
+                        duration: 200
+                        easing.type: Easing.OutBack
+                        easing.overshoot: 2
+                    }
+
+                }
+
+                background: Rectangle {
+                    id: bg
+
+                    anchors.centerIn: parent
+                    color: Colors.roleColor("musicPlayButton")
+                    bottomLeftRadius: btnDelegate.index === 0 ? height / 2 : 6
+                    topLeftRadius: btnDelegate.index === 0 ? height / 2 : 6
+                    bottomRightRadius: btnDelegate.index === 2 ? height / 2 : 6
+                    topRightRadius: btnDelegate.index === 2 ? height / 2 : 6
+                    scale: btnDelegate.down ? 0.95 : (hoverHandler.hovered ? 1.05 : 1)
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 150
+                        }
+
+                    }
+
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: 200
+                            easing.type: Easing.OutBack
+                            easing.overshoot: 2
+                        }
+
+                    }
+
+                }
+
+                contentItem: Text {
+                    text: {
+                        if (btnDelegate.modelData.id === "playpause")
+                            return Variable.playback.isPlaying ? "\ue034" : "\ue037";
+
+                        return btnDelegate.modelData.icon;
+                    }
+                    font.family: "Material Symbols Rounded"
+                    font.pixelSize: btnDelegate.index === 1 ? 24 : 20
+                    color: Colors.roleColor("musicPlayButton", "on")
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    scale: btnDelegate.down ? 0.8 : (hoverHandler.hovered ? 1.15 : 1)
+
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: 200
+                            easing.type: Easing.OutBack
+                        }
+
+                    }
+
+                }
+
             }
 
         }

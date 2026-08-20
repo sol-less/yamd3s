@@ -1,0 +1,14 @@
+{
+    "activatedTabs": {
+        "wallpaper": true,
+        "system": true,
+        "music": true,
+        "notifications": true
+    },
+    "others": {
+        "autoHideBar": true,
+        "launcherType": "grid",
+        "mediaRadii": 16,
+        "volumeRadii": 6
+    }
+}

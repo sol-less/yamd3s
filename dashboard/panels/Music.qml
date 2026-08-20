@@ -55,13 +55,14 @@ Item {
             from: 0
             to: Variable.playback.length > 0 ? Variable.playback.length : 1
             enabled: Variable.player !== null && Variable.playback.length > 0
-            trackColor: Colors.roleColor("music_progress")
+            trackColor: Colors.roleColor("musicProgress")
             value: pressed ? value : Variable.playback.position
             onPressedChanged: {
                 if (!pressed && Variable.player)
                     Variable.player.position = value;
 
             }
+            trackRadii: 6
         }
 
         TransportControls {

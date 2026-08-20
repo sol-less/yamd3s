@@ -6,7 +6,7 @@ pragma Singleton
 QtObject {
     id: root
 
-    readonly property string userConfigPath: Quickshell.shellDir + "/config/user_config.json"
+    readonly property string userConfigPath: Quickshell.shellDir + "/config/metrics.json"
     readonly property int barMarginTop: 8
     readonly property int barHeight: 40
     readonly property int launcherGap: 10
@@ -44,6 +44,7 @@ QtObject {
         path: root.userConfigPath
         watchChanges: true
         onFileChanged: reload()
+        Component.onCompleted: reload()
         onLoaded: {
             try {
                 const data = JSON.parse(text());

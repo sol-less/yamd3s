@@ -6,7 +6,7 @@ pragma Singleton
 QtObject {
     id: root
 
-    readonly property string userConfigPath: Quickshell.shellDir + "/config/user_config.json"
+    readonly property string userConfigPath: Quickshell.shellDir + "/config/general.json"
     property var activatedTabs: ({
         "wallpaper": true,
         "system": true,
@@ -15,7 +15,9 @@ QtObject {
     })
     property var others: ({
         "autoHideBar": true,
-        "launcherType": "list"
+        "launcherType": "list",
+        "mediaRadii": 16,
+        "volumeRadii": 6
     })
     readonly property var settingTabs: [{
         "label": "General",
@@ -75,6 +77,7 @@ QtObject {
         path: root.userConfigPath
         watchChanges: true
         onFileChanged: reload()
+        Component.onCompleted: reload()
         onLoaded: {
             try {
                 const data = JSON.parse(text());

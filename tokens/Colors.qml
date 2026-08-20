@@ -7,7 +7,7 @@ QtObject {
     id: root
 
     readonly property string colorsPath: Quickshell.env("HOME") + "/.local/state/quickshell/generated/colors.json"
-    readonly property string rolesPath: Quickshell.shellDir + "/config/user_config.json"
+    readonly property string rolesPath: Quickshell.shellDir + "/config/theme.json"
     property bool loaded: false
     property var md3: ({
         "primary": "#6750A4",

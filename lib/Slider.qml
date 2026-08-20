@@ -11,6 +11,7 @@ Slider {
     property int thumbHeight: 44
     property int gapSize: implicitHeight / 4
     property int stopIndicatorSize: 4
+    property int trackRadii: 0
     property var trackColor: Colors.md3.secondary
 
     value: 0.5
@@ -33,8 +34,8 @@ Slider {
             height: trackHeight
             width: Math.max(0, control.visualPosition * parent.width - (control.gapSize / 2))
             anchors.verticalCenter: parent.verticalCenter
-            bottomLeftRadius: height / 4
-            topLeftRadius: height / 4
+            bottomLeftRadius: control.trackRadii
+            topLeftRadius: control.trackRadii
             color: control.enabled ? control.trackColor : Qt.alpha(Colors.md3.on_surface, 0.38)
         }
 
@@ -46,8 +47,8 @@ Slider {
             height: trackHeight
             width: Math.max(0, parent.width - x)
             anchors.verticalCenter: parent.verticalCenter
-            bottomRightRadius: height / 4
-            topRightRadius: height / 4
+            bottomRightRadius: control.trackRadii
+            topRightRadius: control.trackRadii
             color: control.enabled ? Colors.md3.surface_variant : Qt.alpha(Colors.md3.on_surface, 0.12)
 
             Rectangle {

@@ -2,26 +2,42 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
-import Quickshell.Wayland
-import Y3s.Lib
 import Y3s.Tokens
 import qs.dashboard.notifications
 
 PanelWindow {
     id: root
 
+    property var expiredMap: ({
+    })
+
+    function expireNotification(notif) {
+        var key = notif.id !== undefined ? notif.id : notif;
+        var copy = Object.assign({
+        }, expiredMap);
+        copy[key] = true;
+        expiredMap = copy;
+    }
+
+    function isExpired(notif) {
+        var key = notif.id !== undefined ? notif.id : notif;
+        return !!expiredMap[key];
+    }
+
     width: 360
-    implicitHeight: column.implicitHeight + 32
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
 
     anchors {
         top: true
+        bottom: true
         right: true
     }
 
     margins {
         top: 16
+        bottom: 16
+        right: 16
     }
 
     ColumnLayout {
@@ -29,6 +45,7 @@ PanelWindow {
 
         width: parent.width - 16
         spacing: 12
+        anchors.top: parent.top
 
         Repeater {
             model: NotifServer.trackedNotifications
@@ -37,47 +54,56 @@ PanelWindow {
                 id: wrapper
 
                 required property var modelData
+                property bool expanded: false
+                readonly property bool expired: root.isExpired(modelData)
+                readonly property real cardTargetHeight: Math.max(64, layout.implicitHeight + 24)
 
-                function slideOutAndDismiss() {
+                function slideOutAndExpire() {
+                    wrapper.expanded = false;
                     card.x = root.width;
                     exitTimer.start();
                 }
 
+                visible: implicitHeight > 0
                 Layout.fillWidth: true
-                implicitHeight: card.implicitHeight
+                implicitHeight: (expanded && !expired) ? cardTargetHeight : 0
+                Component.onCompleted: {
+                    Qt.callLater(() => {
+                        if (!expired) {
+                            wrapper.expanded = true;
+                            card.x = 0;
+                        }
+                    });
+                }
 
                 Timer {
                     id: exitTimer
 
                     interval: 350
-                    onTriggered: wrapper.modelData.dismiss()
+                    onTriggered: root.expireNotification(wrapper.modelData)
                 }
 
                 Rectangle {
                     id: card
 
                     width: parent.width
-                    implicitHeight: Math.max(64, layout.implicitHeight + 24)
-                    // MD3 Floating Surface: Inverse surface tone for floating contrast
+                    height: wrapper.implicitHeight
                     color: Colors.md3.inverse_surface ?? "#313033"
-                    // MD3 Shape: Uniform Extra Large rounding on all corners
                     radius: 16
                     x: root.width
-                    Component.onCompleted: {
-                        card.x = 0;
-                    }
+                    clip: true
 
                     Timer {
-                        running: wrapper.modelData.urgency !== NotificationUrgency.Critical
+                        running: wrapper.modelData.urgency !== NotificationUrgency.Critical && !wrapper.expired
                         interval: 5000
-                        onTriggered: wrapper.slideOutAndDismiss()
+                        onTriggered: wrapper.slideOutAndExpire()
                     }
 
                     RowLayout {
                         id: layout
 
                         anchors.fill: parent
-                        anchors.margins: 16 // MD3 16dp grid padding
+                        anchors.margins: 16
                         spacing: 12
 
                         Image {
@@ -121,15 +147,23 @@ PanelWindow {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: wrapper.slideOutAndDismiss()
+                        onClicked: wrapper.slideOutAndExpire()
                     }
 
                     Behavior on x {
                         NumberAnimation {
                             duration: 350
-                            easing.type: Easing.OutCubic // MD3 Emphasized Decelerate
+                            easing.type: Easing.OutCubic
                         }
 
+                    }
+
+                }
+
+                Behavior on implicitHeight {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.OutCubic
                     }
 
                 }
@@ -138,6 +172,10 @@ PanelWindow {
 
         }
 
+    }
+
+    mask: Region {
+        item: column
     }
 
 }

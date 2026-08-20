@@ -1,0 +1,13 @@
+{
+    "themeRoles": {
+        "workspaces": "tertiary",
+        "clock": "secondary",
+        "switcher": "secondary",
+        "musicProgress": "secondary",
+        "musicPlayButton": "primary",
+        "volumeIcon": "tertiary",
+        "brightnessIcon": "tertiary",
+        "powermenu": "error",
+        "mainBackground": "surface_container_low"
+    }
+}

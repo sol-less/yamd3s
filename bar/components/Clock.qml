@@ -2,9 +2,9 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
-import qs.services
 import Y3s.Tokens
 import Y3s.Lib
+import Y3s.Globals
 
 Rectangle {
     id: root
@@ -37,7 +37,7 @@ Rectangle {
     width: moduleIndex === 1 ? sliderWidth : clockWidth
     height: parent.height
     radius: cornerRadius
-    color: moduleIndex === 1 ? "transparent" : Colors.roleColor("clock", "container")
+    color: moduleIndex === 1 ? "transparent" : Colors.roleColor("clock")
     clip: true
 
     PwObjectTracker {
@@ -112,7 +112,7 @@ Rectangle {
             font.family: "Google Sans"
             font.weight: 500
             font.pixelSize: 18
-            color: root.moduleIndex === 0 ? Colors.md3.on_surface : Colors.roleColor("clock", "on_container")
+            color: Colors.roleColor("clock", "on")
             opacity: mouseHandler.containsMouse ? 0 : 1
             y: (parent.height - height) / 2 + (mouseHandler.containsMouse ? -8 : 0)
 
@@ -138,7 +138,7 @@ Rectangle {
             font.family: "Google Sans"
             font.weight: 500
             font.pixelSize: 18
-            color: root.moduleIndex === 0 ? Colors.md3.on_surface : Colors.roleColor("clock", "on_container")
+            color: Colors.roleColor("clock", "on")
             opacity: mouseHandler.containsMouse ? 1 : 0
             y: (parent.height - height) / 2 + (mouseHandler.containsMouse ? 0 : 8)
 
@@ -190,6 +190,7 @@ Rectangle {
                 trackHeight: parent.height + 5
                 thumbHeight: parent.height * 2
                 enabled: !root.isMuted
+                trackRadii: Config.others.volumeRadii
                 onPressedChanged: {
                     if (!pressed) {
                         root.currentVolume = value;
