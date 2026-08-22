@@ -38,7 +38,9 @@ QtObject {
         "musicPlayButton": "primary",
         "volumeIcon": "tertiary",
         "brightnessIcon": "tertiary",
-        "powermenu": "secondary"
+        "powermenu": "secondary",
+        "notificationButton": "tertiary",
+        "actionsButton": "secondary"
     })
     property FileView userConfigFile
     property FileView colorsFile

@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Y3s.Tokens
-import qs.dashboard.system
+import qs.hub.system
 
 Item {
     id: root

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Y3s.Lib
 import Y3s.Tokens
-import qs.dashboard.system
+import qs.hub.system
 
 Item {
     Layout.fillWidth: true

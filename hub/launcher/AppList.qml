@@ -1,5 +1,5 @@
 import QtQuick
-import qs.dashboard.launcher
+import qs.hub.launcher
 import Y3s.Globals
 
 GridView {
@@ -21,8 +21,8 @@ GridView {
     delegate: AppEntry {
         required property var modelData
         required property int index
-        width: root.cellWidth - (gridMode ? 8 : 0)
-        height: root.cellHeight - (gridMode ? 8 : 0)
+        width: root.cellWidth
+        height: root.cellHeight
 
         app_ref: modelData
         is_current: root.currentIndex === index

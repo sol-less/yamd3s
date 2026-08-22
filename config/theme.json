@@ -8,6 +8,7 @@
         "volumeIcon": "tertiary",
         "brightnessIcon": "tertiary",
         "powermenu": "error",
-        "mainBackground": "surface_container_low"
+        "notificationButton": "tertiary",
+        "actionsButton": "secondary"
     }
 }

@@ -6,9 +6,9 @@ import Quickshell.Hyprland
 import Y3s.Tokens
 import Y3s.Globals
 import Y3s.Lib
-import qs.dashboard
-import qs.dashboard.panels
-import qs.dashboard.system
+import qs.hub
+import qs.hub.panels
+import qs.hub.system
 
 PanelWindow {
     id: dashboard
@@ -79,7 +79,7 @@ PanelWindow {
         windows: [dashboard]
 
         onCleared: {
-            if (States.dashboardActive && appLauncherPanel.notFocus === true ) {
+            if (States.dashboardActive) {
                 States.dashboardClose();
             }
         }

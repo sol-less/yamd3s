@@ -6,6 +6,7 @@ pragma Singleton
 Singleton {
     id: root
 
+    property bool dnd: false
     readonly property alias trackedNotifications: server.trackedNotifications
 
     NotificationServer {
@@ -14,8 +15,13 @@ Singleton {
         actionsSupported: true
         bodySupported: true
         imageSupported: true
+        actionIconsSupported: true
         onNotification: (n) => {
-            return n.tracked = true;
+            if (root.dnd) {
+                n.tracked = false;
+                return ;
+            }
+            n.tracked = true;
         }
     }
 

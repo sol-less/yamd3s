@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import Y3s.Globals
 import Y3s.Lib
 import Y3s.Tokens
-import qs.dashboard.music
+import qs.hub.music
 
 Item {
     id: root

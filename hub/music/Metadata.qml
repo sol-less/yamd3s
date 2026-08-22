@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Y3s.Tokens
-import qs.dashboard.music
+import qs.hub.music
 
 ColumnLayout {
     Layout.fillWidth: true

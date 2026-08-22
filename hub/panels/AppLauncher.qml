@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Y3s.Globals
 import Y3s.Tokens
-import qs.dashboard.launcher
+import qs.hub.launcher
 
 Item {
     id: root

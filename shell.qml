@@ -3,14 +3,14 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.bar
-import qs.dashboard
+import qs.hub
 import Y3s.Lib
 import Y3s.Globals
 import qs.services
 import qs.lockscreen
 import qs.settings
 import qs.notifications
-import qs.dashboard.notifications
+import qs.hub.notifications
 
 ShellRoot {
     Variants {

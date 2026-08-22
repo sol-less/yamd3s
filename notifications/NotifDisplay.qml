@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
 import Y3s.Tokens
-import qs.dashboard.notifications
+import qs.hub.notifications
 
 PanelWindow {
     id: root
@@ -89,7 +89,7 @@ PanelWindow {
                     width: parent.width
                     height: wrapper.implicitHeight
                     color: Colors.md3.inverse_surface ?? "#313033"
-                    radius: 16
+                    radius: 6
                     x: root.width
                     clip: true
 
