@@ -9,7 +9,7 @@ Item {
     id: root
 
     property bool notFocus: search_bar.text.length === 0
-    property bool isGridMode: Config.others.launcherType === "grid"
+    property bool isGridMode: Config.launcherType === "grid"
 
     implicitWidth: Metrics.panelSizes.apps.width
     implicitHeight: Metrics.panelSizes.apps.height
@@ -30,7 +30,7 @@ Item {
 
         function activate_app(app) {
             app.execute();
-            States.dashboardClose();
+            States.hubClose();
         }
 
         anchors.fill: parent

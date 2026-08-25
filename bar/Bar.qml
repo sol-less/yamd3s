@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
-import Y3s.Globals
+import Y3s.Config
 import Y3s.Lib
 import Y3s.Tokens
 import qs.bar.components
@@ -11,19 +11,19 @@ PanelWindow {
     id: root
 
     property bool modulesActive: hoverHandler.hovered || clock.moduleIndex === 1 || workspaces.recentlyChanged
-    property bool isHovered: Config.others.autoHideBar ? (modulesActive || timerHandler.running) : true
+    property bool isHovered: ConfigManager.behavior.bar.autoHide ? (modulesActive || timerHandler.running) : true
 
     onModulesActiveChanged: {
-        if (Config.others.autoHideBar) {
+        if (ConfigManager.behavior.bar.autoHide) {
             if (!modulesActive)
                 timerHandler.restart();
             else
                 timerHandler.stop();
         }
     }
-    height: Metrics.barHeight
+    height: Metrics.bar.height
     color: "transparent"
-    WlrLayershell.exclusiveZone: Config.others.autoHideBar ? Metrics.barHeight - 24 : Metrics.barHeight
+    WlrLayershell.exclusiveZone: ConfigManager.behavior.bar.autoHide ? height - 24 : ConfigManager.layout.bar.height
 
     anchors {
         top: true
@@ -35,16 +35,16 @@ PanelWindow {
         id: timerHandler
 
         running: false
-        interval: 500
+        interval: ConfigManager.behavior.bar.autoHideDelay
     }
 
     Rectangle {
         id: barContainer
 
         anchors.horizontalCenter: parent.horizontalCenter
-        height: Metrics.barHeight
+        height: Metrics.bar.height
         width: rowContainer.implicitWidth + 12
-        color: Colors.md3.surface_container_low
+        color: Theme.md3.surface_container_low
         bottomLeftRadius: root.isHovered ? 12 : 10
         bottomRightRadius: root.isHovered ? 12 : 10
         y: root.isHovered ? 0 : -height + 16

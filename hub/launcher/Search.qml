@@ -43,8 +43,8 @@ Item {
         anchors.centerIn: parent
 
         Connections {
-            function onDashboardActiveChanged() {
-                if (States.dashboardOpen)
+            function onHubActiveChanged() {
+                if (States.hubActive)
                     root.clear();
 
             }

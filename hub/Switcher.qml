@@ -5,15 +5,17 @@ import Y3s.Globals
 import Y3s.Tokens
 
 Rectangle {
-    readonly property var allTabs: Config.allTabs
-    readonly property var tabs: States.visibleTabs
+    id: root
 
-    function switcher_tabs_icon(i) {
-        return tabs[i].icon;
+    readonly property var allTabs: Config.hubComponents
+    readonly property var tabs: States.allTabs ?? []
+
+    function switcherTabsIcon(i) {
+        return root.tabs?.[i]?.icon ?? "";
     }
 
-    function switcher_tabs_label(i) {
-        return tabs[i].label;
+    function switcherTabsLabel(i) {
+        return root.tabs?.[i]?.name ?? "";
     }
 
     Layout.fillWidth: true
@@ -27,7 +29,7 @@ Rectangle {
         onActivated: {
             let prevIndex = States.activePanel - 1;
             if (prevIndex < 0)
-                prevIndex = tabs.length - 1;
+                prevIndex = root.tabs.length - 1;
 
             States.setPanel(prevIndex);
         }
@@ -37,7 +39,7 @@ Rectangle {
         sequence: "Tab"
         onActivated: {
             let nextIndex = States.activePanel + 1;
-            if (nextIndex >= tabs.length)
+            if (nextIndex >= root.tabs.length)
                 nextIndex = 0;
 
             States.setPanel(nextIndex);
@@ -58,7 +60,7 @@ Rectangle {
                 required property int index
                 readonly property bool isActive: States.activePanel === index
                 property real firstIndex: (index === 0 || isActive) ? height / 2 : 6
-                property real lastIndex: (index === tabs.length - 1 || isActive) ? height / 2 : 6
+                property real lastIndex: (index === root.tabs.length - 1 || isActive) ? height / 2 : 6
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -80,7 +82,7 @@ Rectangle {
                             id: iconText
 
                             y: 2
-                            text: switcher_tabs_icon(tab_slot.index)
+                            text: root.switcherTabsIcon(tab_slot.index)
                             font.family: "Material Symbols Rounded"
                             font.pixelSize: 16
                             color: tab_slot.isActive ? Colors.roleColor("switcher", "on") : Colors.md3.on_surface_variant
@@ -89,15 +91,12 @@ Rectangle {
                                 ColorAnimation {
                                     duration: 200
                                 }
-
                             }
-
                         }
-
                     }
 
                     Text {
-                        text: switcher_tabs_label(tab_slot.index)
+                        text: root.switcherTabsLabel(tab_slot.index)
                         font.family: "Google Sans"
                         font.weight: tab_slot.isActive ? 500 : 400
                         font.pixelSize: 12
@@ -107,7 +106,6 @@ Rectangle {
                             ColorAnimation {
                                 duration: 200
                             }
-
                         }
 
                         Behavior on font.pixelSize {
@@ -115,11 +113,8 @@ Rectangle {
                                 duration: 250
                                 easing.type: Easing.OutQuint
                             }
-
                         }
-
                     }
-
                 }
 
                 MouseArea {
@@ -131,7 +126,6 @@ Rectangle {
                     ColorAnimation {
                         duration: 200
                     }
-
                 }
 
                 Behavior on topLeftRadius {
@@ -141,7 +135,6 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
-
                 }
 
                 Behavior on topRightRadius {
@@ -151,7 +144,6 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
-
                 }
 
                 Behavior on bottomLeftRadius {
@@ -161,7 +153,6 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
-
                 }
 
                 Behavior on bottomRightRadius {
@@ -171,11 +162,8 @@ Rectangle {
                         mass: 1
                         epsilon: 0.25
                     }
-
                 }
-
             }
-
         }
 
         MaterialShape {
@@ -194,9 +182,7 @@ Rectangle {
                     ColorAnimation {
                         duration: 250
                     }
-
                 }
-
             }
 
             HoverHandler {
@@ -212,11 +198,7 @@ Rectangle {
                 ColorAnimation {
                     duration: 250
                 }
-
             }
-
         }
-
     }
-
 }

@@ -7,7 +7,7 @@ GridView {
 
     property var app_ref_current: currentItem?.app_ref ?? null
     signal appActivated(var app)
-    property bool gridMode: Config.others.launcherType === "grid"
+    property bool gridMode: Config.launcher.type === "grid"
 
     clip: true
     currentIndex: 0

@@ -1,0 +1,20 @@
+{
+    "active": "default",
+
+    "presets": {
+        "default": {
+            "theme": "material",
+            "layout": "balanced"
+        },
+
+        "compact": {
+            "theme": "material",
+            "layout": "compact"
+        },
+
+        "minimal": {
+            "theme": "material",
+            "layout": "minimal"
+        }
+    }
+}

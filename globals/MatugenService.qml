@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Y3s.Globals
 pragma Singleton
 
 QtObject {

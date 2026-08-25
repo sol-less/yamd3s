@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 project(yamd3s)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_AUTOMOC ON)
+
+find_package(Qt6 REQUIRED COMPONENTS Core Qml)
+
 function(create_qml_module FOLDER_NAME MODULE_SUFFIX IS_SINGLETON)
     set(MODULE_NAME "Y3s/${MODULE_SUFFIX}")
     set(MODULE_DIR "${CMAKE_BINARY_DIR}/${MODULE_NAME}")
@@ -30,4 +35,17 @@ create_qml_module("globals" "Globals" TRUE)
 create_qml_module("tokens" "Tokens" TRUE)
 create_qml_module("lib" "Lib" FALSE)
 
-add_custom_target(run_dummy ALL)
+qt_add_qml_module(Y3sConfigPlugin
+    URI "Y3s.Config"
+    VERSION 1.0
+    OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Y3s/Config"
+    SOURCES
+        src/ConfigManager.h
+        src/ConfigManager.cpp
+        src/SystemMonitor.h
+        src/SystemMonitor.cpp
+        src/Theme.h
+        src/Theme.cpp
+)
+
+target_include_directories(Y3sConfigPlugin PRIVATE src)

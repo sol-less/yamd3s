@@ -4,13 +4,11 @@ import Quickshell
 import Quickshell.Io
 import qs.bar
 import qs.hub
-import Y3s.Lib
 import Y3s.Globals
 import qs.services
 import qs.lockscreen
 import qs.settings
 import qs.notifications
-import qs.hub.notifications
 
 ShellRoot {
     Variants {
@@ -31,19 +29,19 @@ ShellRoot {
         }
     }
 
-    Dashboard {
-        id: dashboard
+    Hub {
+        id: hub
 
         IpcHandler {
-            target: "dashboard"
+            target: "hub"
             function toggle(): void {
-                States.dashboardToggle();
+                States.hubToggle();
             }
             function open(): void {
-                States.dashboardOpen();
+                States.hubOpen();
             }
             function close(): void {
-                States.dashboardClose();
+                States.hubClose();
             }
         }
     }

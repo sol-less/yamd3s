@@ -6,14 +6,43 @@ pragma Singleton
 QtObject {
     id: root
 
-    property bool dashboardActive: false
+    property bool hubActive: false
     property int activePanel: 0
     property int currentSettingTab: 0
     property bool lockscreenActive: false
     property bool settingsOpen: false
-    readonly property var visibleTabs: Config.allTabs.filter((t) => {
-        return t.alwaysOn || Config.activatedTabs[t.key];
-    })
+    property int panelMaxWidth: 800
+    property int panelMaxHeight: 600
+    // WARNING: The icon MUST be the code point on Material Symbols
+    readonly property var allTabs: [{
+        "key": "launcher",
+        "icon": "\ueb9b",
+        "name": "Apps"
+    }, {
+        "key": "wallpaper",
+        "icon": "\ue3f4",
+        "name": "Wallpaper"
+    }, {
+        "key": "system",
+        "icon": "\uf3da",
+        "name": "System"
+    }, {
+        "key": "music",
+        "icon": "\ueb1a",
+        "name": "Music"
+    }, {
+        "key": "notifications",
+        "icon": "\ue7f4",
+        "name": "Notifications"
+    }]
+    readonly property var visibleTabs: {
+        if (!Config.hubComponents)
+            return allTabs;
+
+        return allTabs.filter((tab) => {
+            return Config.hubComponents[tab.key] === true;
+        });
+    }
 
     signal startLockSequence()
 
@@ -21,30 +50,30 @@ QtObject {
         activePanel = index;
     }
 
-    function dashboardToggle() {
-        if (dashboardActive)
-            dashboardClose();
+    function hubToggle() {
+        if (hubActive || MatugenService.isRunning)
+            hubClose();
         else
-            dashboardOpen();
+            hubOpen();
     }
 
-    function dashboardOpen() {
-        dashboardActive = true;
+    function hubOpen() {
+        hubActive = true;
     }
 
-    function dashboardClose() {
-        dashboardActive = false;
+    function hubClose() {
+        hubActive = false;
     }
 
     function toggleLock() {
         lockscreenActive = !lockscreenActive;
         if (lockscreenActive)
-            dashboardClose();
+            hubClose();
 
     }
 
     function requestLock() {
-        dashboardClose();
+        hubClose();
         startLockSequence();
     }
 
@@ -57,7 +86,7 @@ QtObject {
 
     function openSettings() {
         settingsOpen = true;
-        dashboardActive = false;
+        hubActive = false;
     }
 
     function closeSettings() {
@@ -65,7 +94,8 @@ QtObject {
     }
 
     onVisibleTabsChanged: {
-        if (root.activePanel >= root.visibleTabs.length)
+        // Safety check to ensure we don't select an out-of-bounds tab if one gets disabled
+        if (root.visibleTabs.length > 0 && root.activePanel >= root.visibleTabs.length)
             root.activePanel = 0;
 
     }

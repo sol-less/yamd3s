@@ -1,0 +1,12 @@
+{
+    "bar": {
+        "autoHide": true,
+        "autoHideDelay": 300,
+        "revealOnEdge": true
+    },
+    "panels": {
+        "closeOnFocusLoss": true,
+        "closeOnEscape": true,
+        "animationEnabled": true
+    }
+}

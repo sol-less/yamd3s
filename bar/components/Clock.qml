@@ -5,6 +5,7 @@ import Quickshell.Services.Pipewire
 import Y3s.Tokens
 import Y3s.Lib
 import Y3s.Globals
+import Y3s.Config
 
 Rectangle {
     id: root
@@ -190,7 +191,7 @@ Rectangle {
                 trackHeight: parent.height + 5
                 thumbHeight: parent.height * 2
                 enabled: !root.isMuted
-                trackRadii: Config.others.volumeRadii
+                trackRadii: ConfigManager.layout.radii.huge
                 onPressedChanged: {
                     if (!pressed) {
                         root.currentVolume = value;

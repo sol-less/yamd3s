@@ -36,7 +36,7 @@ Item {
 
                 InfoRow {
                     label: "Packages"
-                    value: (InfoProcess.pacmanCount + InfoProcess.aurCount) + " pacman/AUR, " + InfoProcess.flatpakCount + " flatpak"
+                    value: (InfoProcess.packagesCount) + " Total installed"
                 }
 
             }

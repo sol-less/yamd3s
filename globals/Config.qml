@@ -6,89 +6,99 @@ pragma Singleton
 QtObject {
     id: root
 
-    readonly property string userConfigPath: Quickshell.shellDir + "/config/general.json"
-    property var activatedTabs: ({
+    property var behavior: ({
+        "bar": {
+            "autoHide": true,
+            "autoHideDelay": 300,
+            "revealOnEdge": true
+        },
+        "panels": {
+            "closeOnFocusLoss": true,
+            "closeOnEscape": true,
+            "animationEnabled": true
+        }
+    })
+    property var barComponents: ({
+        "workspaces": true,
+        "clock": true,
+        "volume": true,
+        "brightness": true,
+        "notifications": true,
+        "power": true
+    })
+    property var hubComponents: ({
+        "launcher": true,
         "wallpaper": true,
         "system": true,
         "music": true,
         "notifications": true
     })
-    property var others: ({
-        "autoHideBar": true,
-        "launcherType": "list",
-        "mediaRadii": 16,
-        "volumeRadii": 6
-    })
-    readonly property var settingTabs: [{
-        "label": "General",
-        "icon": ""
-    }, {
-        "label": "Appearance",
-        "icon": ""
-    }, {
-        "label": "Dashboard Tabs",
-        "icon": ""
-    }]
-    readonly property var allTabs: [{
-        "key": "apps",
-        "icon": "\ue5c3",
-        "label": "Apps",
-        "alwaysOn": true
-    }, {
-        "key": "wallpaper",
-        "icon": "\ue3f4",
-        "label": "Wallpaper"
-    }, {
-        "key": "system",
-        "icon": "\ue30a",
-        "label": "System"
-    }, {
-        "key": "music",
-        "icon": "\ue405",
-        "label": "Music"
-    }, {
-        "key": "notifications",
-        "icon": "\ue7f4",
-        "label": "Notifications"
-    }]
-    property FileView configFile
-
-    function setTabActive(tabKey, enabled) {
-        activatedTabs = Object.assign({
-        }, activatedTabs, {
-            [tabKey]: enabled
-        });
-        saveConfig();
-    }
-
-    function saveConfig() {
-        let config = {
-        };
-        try {
-            config = JSON.parse(configFile.text());
-        } catch (e) {
+    property var launcher: ({
+        "type": "grid",
+        "sortMode": "frequency",
+        "showCategories": true,
+        "showRecent": true,
+        "launchOnEnter": true,
+        "search": {
+            "enabled": true,
+            "placeholder": "Search applications...",
+            "fuzzy": true
         }
-        config.activatedTabs = root.activatedTabs;
-        config.others = root.others;
-        configFile.setText(JSON.stringify(config, null, 2));
-    }
+    })
+    property FileView behaviorFile
 
-    configFile: FileView {
-        path: root.userConfigPath
+    behaviorFile: FileView {
+        path: Quickshell.shellDir + "/config/behavior.json"
         watchChanges: true
         onFileChanged: reload()
         Component.onCompleted: reload()
         onLoaded: {
             try {
                 const data = JSON.parse(text());
-                if (data.activatedTabs)
-                    root.activatedTabs = data.activatedTabs;
+                root.behavior = Object.assign({
+                }, root.behavior, data);
+            } catch (e) {
+                console.warn("Config.qml: Failed to parse behavior.json -> " + e);
+            }
+        }
+    }
 
-                if (data.others)
-                    root.others = data.others;
+    property FileView componentsFile
+
+    componentsFile: FileView {
+        path: Quickshell.shellDir + "/config/components.json"
+        watchChanges: true
+        onFileChanged: reload()
+        Component.onCompleted: reload()
+        onLoaded: {
+            try {
+                const data = JSON.parse(text());
+                if (data.bar)
+                    root.barComponents = data.bar;
+
+                if (data.hub)
+                    root.hubComponents = data.hub;
 
             } catch (e) {
-                console.warn("Config.qml: cannot parse user_config.json, using defaults");
+                console.warn("Config.qml: Failed to parse components.json -> " + e);
+            }
+        }
+    }
+
+    property FileView launcherFile
+
+    launcherFile: FileView {
+        path: Quickshell.shellDir + "/config/launcher.json"
+        watchChanges: true
+        onFileChanged: reload()
+        Component.onCompleted: reload()
+        onLoaded: {
+            try {
+                const data = JSON.parse(text());
+                root.launcher = Object.assign({
+                }, root.launcher, data);
+            } catch (e) {
+                console.warn("Config.qml: Failed to parse launcher.json -> " + e);
             }
         }
     }
