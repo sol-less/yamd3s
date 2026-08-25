@@ -25,6 +25,7 @@
 - `yacli` (optional, but recommended. Install [here](https://github.com/sol-less/yacli))
 - `yay` (or `paru` for installing `quickshell-git`)
 - `git`
+- `cmake`
 
 ## Method 1: Manual Installation
 > [!NOTE]
@@ -33,7 +34,7 @@
 ```bash
 git clone https://github.com/sol-less/yamd3s.git
 cd yamd3s/
-chmod +x Yals
+cmake --build build
 ```
 
 ## Method 2: Through Yacli
@@ -49,6 +50,7 @@ yacli install
 
 ## Method 1: Manual Run
 ```bash
+chmod +x Yals
 ./Yals
 ```
 
@@ -58,48 +60,5 @@ yacli shell run
 ```
 
 # Configuration
-You can configure the `user_config.json` file at `<PROJECT_DIR>/config/user_config.json`.
-
-**Default configuration:**
-
-```json
-{
-    "themeRoles": {
-        "workspaces": "tertiary",
-        "clock": "secondary",
-        "switcher": "secondary",
-        "musicProgress": "secondary",
-        "musicPlayButton": "primary",
-        "volumeIcon": "tertiary",
-        "brightnessIcon": "tertiary",
-        "powermenu": "error",
-        "mainBackground": "surface_container_low"
-    },
-    "activatedTabs": {
-        "wallpaper": true,
-        "system": true,
-        "music": true
-    },
-    "panelSizes": {
-        "apps": {
-            "width": 565,
-            "height": 350
-        },
-        "wallpaper": {
-            "width": 700,
-            "height": 420
-        },
-        "system": {
-            "width": 755,
-            "height": 245
-        },
-        "music": {
-            "width": 570,
-            "height": 225
-        }
-    },
-    "others": {
-        "autoHideBar": true
-    }
-}
-```
+> [!NOTE]
+> Due to the new migration to some C++, the configuration is still messy. Thank You!
