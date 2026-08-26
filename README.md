@@ -34,6 +34,7 @@
 ```bash
 git clone https://github.com/sol-less/yamd3s.git
 cd yamd3s/
+cmake -B build
 cmake --build build
 ```
 
