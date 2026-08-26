@@ -1,0 +1,125 @@
+# ~/.config/quickshell/config.toml
+
+[behavior.bar]
+autoHide = true
+autoHideDelay = 1000
+revealOnEdge = true
+
+[behavior.panels]
+closeOnFocusLoss = true
+closeOnEscape = true
+animationEnabled = true
+
+[components.bar]
+workspaces = true
+clock = true
+volume = true
+brightness = true
+notifications = true
+power = true
+
+[components.hub]
+launcher = true
+wallpaper = true
+system = true
+music = true
+notifications = true
+
+[launcher]
+type = "grid"
+sortMode = "frequency"
+showCategories = true
+showRecent = true
+launchOnEnter = true
+
+[launcher.grid]
+columns = 5
+iconSize = 48
+itemWidth = 90
+itemHeight = 90
+spacing = 8
+
+[launcher.search]
+enabled = true
+placeholder = "Search applications..."
+fuzzy = true
+
+[layout.bar]
+height = 42
+spacing = 8
+margin = 8
+
+[layout.spacing]
+compact = 4
+small = 8
+medium = 12
+large = 16
+huge = 24
+
+[layout.radii]
+compact = 4
+small = 8
+medium = 12
+large = 16
+huge = 24
+
+[panels.apps]
+anchor = "center"
+width = 565
+height = 350
+
+[panels.wallpaper]
+anchor = "center"
+width = 700
+height = 420
+
+[panels.system]
+anchor = "center"
+width = 755
+height = 245
+
+[panels.music]
+anchor = "center"
+width = 580
+height = 245
+
+[panels.notifications]
+anchor = "center"
+width = 650
+height = 375
+
+[panels.dashboard]
+anchor = "center"
+width = 600
+height = 400
+
+[panels.max]
+width = 800
+height = 900
+
+[presets]
+active = "default"
+
+[presets.presets.default]
+theme = "material"
+layout = "balanced"
+
+[presets.presets.compact]
+theme = "material"
+layout = "compact"
+
+[presets.presets.minimal]
+theme = "material"
+layout = "minimal"
+
+[themeRoles]
+workspaces = "tertiary"
+clock = "secondary"
+switcher = "secondary"
+musicProgress = "secondary"
+musicPlayButton = "primary"
+volumeIcon = "tertiary"
+brightnessIcon = "tertiary"
+powermenu = "error"
+notificationButton = "tertiary"
+actionsButton = "secondary"

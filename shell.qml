@@ -2,13 +2,13 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.bar
-import qs.hub
-import Y3s.Globals
-import qs.services
-import qs.lockscreen
-import qs.settings
-import qs.notifications
+import Yamd3s.Globals
+import qs.qml.bar
+import qs.qml.hub
+import qs.qml.services
+import qs.qml.lockscreen
+import qs.qml.settings
+import qs.qml.notifications
 
 ShellRoot {
     Variants {
