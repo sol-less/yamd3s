@@ -1,8 +1,7 @@
-import Yamd3s.Globals
+import Yamd3s
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
-import Yamd3s.Core
 import qs.qml.services
 
 PanelWindow {

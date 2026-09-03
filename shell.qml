@@ -2,13 +2,14 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Yamd3s.Globals
-import qs.qml.bar
-import qs.qml.hub
+import Yamd3s
+import qs.qml.shell.bar
+import qs.qml.shell.hub
 import qs.qml.services
-import qs.qml.lockscreen
-import qs.qml.settings
+import qs.qml.shell.lockscreen
+import qs.qml.shell.settings
 import qs.qml.notifications
+import "./qml/widgets"
 
 ShellRoot {
     Variants {
@@ -31,26 +32,6 @@ ShellRoot {
 
     Hub {
         id: hub
-
-        IpcHandler {
-            target: "hub"
-            function toggle(): void {
-                States.hubToggle();
-            }
-            function open(): void {
-                States.hubOpen();
-            }
-            function close(): void {
-                States.hubClose();
-            }
-        }
-    }
-
-    IpcHandler {
-        target: "lock"
-        function lock(): void {
-            States.requestLock();
-        }
     }
 
     IpcHandler {
@@ -66,5 +47,8 @@ ShellRoot {
 
     Settings {
         active: States.settingsOpen
+    }
+
+    Widgets {
     }
 }

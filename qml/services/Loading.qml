@@ -1,7 +1,6 @@
-import Yamd3s.Globals
+import Yamd3s
 import M3Shapes
 import QtQuick
-import Yamd3s.Core
 
 MaterialShape {
     id: root
@@ -14,8 +13,8 @@ MaterialShape {
     property real baseScale: 1
     property real burstScaleOffset: 0
 
-    width: 64
-    height: 64
+    implicitWidth: 64
+    implicitHeight: 64
     color: Theme.md3.primary
     animationDuration: 650
     animationEasing.type: Easing.OutBack

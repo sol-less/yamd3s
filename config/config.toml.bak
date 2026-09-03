@@ -1,9 +1,4 @@
-# Pre-generated Configuration (or config.toml) for [ Yamd3s ]
-# If you wish to configurate, please read the documentation :
-
-##################################
-### AUTO GENERATED config.toml ###
-##################################
+# Auto configuration for [ Yamd3s ]
 
 [general]
 preset = "default"
@@ -27,12 +22,6 @@ notifications = true
 
 [components.widgets]
 clock = true
-
-# | Launcher Settings
-[components.launcher]
-mode = "grid"
-showIcons = true
-iconSize = 24
 
 # | Component behavior
 [behavior.bar]
