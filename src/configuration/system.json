@@ -1,0 +1,16 @@
+{
+  "layout": {
+    "bar": { "height": 42, "spacing": 8, "margin": 8 },
+    "radii": { "compact": 4, "small": 8, "medium": 12, "large": 16, "huge": 24 },
+    "spacing": { "compact": 4, "small": 8, "medium": 12, "large": 16, "huge": 24 }
+  },
+  "panels": {
+    "apps": { "anchor": "top_left", "width": 565, "height": 350 },
+    "dashboard": { "anchor": "center", "width": 600, "height": 400 },
+    "wallpaper": { "anchor": "center", "width": 700, "height": 420 },
+    "system": { "anchor": "center", "width": 755, "height": 245 },
+    "music": { "anchor": "center", "width": 580, "height": 245 },
+    "notifications": { "anchor": "center", "width": 650, "height": 375 },
+    "settings": { "anchor": "center", "width": 720, "height": 480 }
+  }
+}

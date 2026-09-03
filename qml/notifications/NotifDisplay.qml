@@ -1,10 +1,10 @@
-import Yamd3s.Globals
+import Yamd3s
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
 
-import qs.qml.hub.notifications
+import qs.qml.shell.hub.notifications
 
 PanelWindow {
     id: root
@@ -25,7 +25,7 @@ PanelWindow {
         return !!expiredMap[key];
     }
 
-    width: 360
+    implicitWidth: 360
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
 
@@ -44,7 +44,7 @@ PanelWindow {
     ColumnLayout {
         id: column
 
-        width: parent.width - 16
+        implicitWidth: parent.width - 16
         spacing: 12
         anchors.top: parent.top
 
@@ -87,8 +87,8 @@ PanelWindow {
                 Rectangle {
                     id: card
 
-                    width: parent.width
-                    height: wrapper.implicitHeight
+                    implicitWidth: parent.width
+                    implicitHeight: wrapper.implicitHeight
                     color: Theme.md3.inverse_surface ?? "#313033"
                     radius: 6
                     x: root.width

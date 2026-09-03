@@ -1,8 +1,13 @@
-cmake_minimum_required(VERSION 3.16)
-project(yamd3s)
+cmake_minimum_required(VERSION 3.19)
+project(Yamd3s)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
+
+include(GNUInstallDirs)
+
+set(INSTALL_QMLDIR "${CMAKE_INSTALL_LIBDIR}/qt6/qml")
+set(INSTALL_QSCONFDIR "${CMAKE_INSTALL_SYSCONFDIR}/xdg/quickshell/yamd3s")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -12,74 +17,69 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(tomlplusplus)
 
+find_package(Qt6 REQUIRED COMPONENTS Core Qml Quick)
 
 if(COMMAND qt_policy)
     qt_policy(SET QTP0001 NEW)
+    qt_policy(SET QTP0004 NEW)
 endif()
 
-find_package(Qt6 REQUIRED COMPONENTS Core Qml Quick)
+set_source_files_properties(
+    src/globals/MatugenService.qml
+    src/globals/PowerActions.qml
+    src/globals/States.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
 
-function(create_qml_module FOLDER_NAME MODULE_SUFFIX IS_SINGLETON)
-    set(MODULE_NAME "Yamd3s/${MODULE_SUFFIX}")
-    set(MODULE_DIR "${CMAKE_BINARY_DIR}/${MODULE_NAME}")
-    file(MAKE_DIRECTORY "${MODULE_DIR}")
-
-    file(GLOB QML_FILES "${CMAKE_SOURCE_DIR}/${FOLDER_NAME}/*.qml")
-    
-    set(QMLDIR_CONTENT "module Yamd3s.${MODULE_SUFFIX}\n")
-
-    foreach(QML_FILE ${QML_FILES})
-        get_filename_component(FILE_NAME ${QML_FILE} NAME)
-        get_filename_component(FILE_WE ${QML_FILE} NAME_WE)
-
-        if(IS_SINGLETON)
-            string(APPEND QMLDIR_CONTENT "singleton ${FILE_WE} 1.0 ${FILE_NAME}\n")
-        else()
-            string(APPEND QMLDIR_CONTENT "${FILE_WE} 1.0 ${FILE_NAME}\n")
-        endif()
-
-        file(CREATE_LINK "${QML_FILE}" "${MODULE_DIR}/${FILE_NAME}" SYMBOLIC)
-    endforeach()
-
-    file(WRITE "${MODULE_DIR}/qmldir" "${QMLDIR_CONTENT}")
-endfunction()
-
-create_qml_module("qml/globals" "Globals" TRUE)
-create_qml_module("qml/components" "UI" FALSE)
-
-qt_add_qml_module(Yamd3sCorePlugin
-    URI "Yamd3s.Core"
+qt_add_qml_module(Yamd3s
+    URI "Yamd3s"
     VERSION 1.0
-    OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Yamd3s/Core"
+    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Yamd3s"
     SOURCES
-        src/core/ConfigManager.cpp
-        src/core/ConfigManager.h
-        src/core/SystemMonitor.h
-        src/core/SystemMonitor.cpp
-        src/core/Theme.h
-        src/core/Theme.cpp
+        src/core/ConfigManager.cpp src/core/ConfigManager.h
+        src/core/SystemMonitor.cpp src/core/SystemMonitor.h
+        src/core/Theme.cpp src/core/Theme.h
+        src/visual/Corner.cpp src/visual/Corner.h
+    QML_FILES
+        src/globals/MatugenService.qml
+        src/globals/PowerActions.qml
+        src/globals/States.qml
+        src/components/Button.qml
+        src/components/Progress.qml
+        src/components/QuickButton.qml
+        src/components/RangeSlider.qml
+        src/components/ControlSlider.qml
+        src/components/Switch.qml
+    RESOURCES
+        src/configuration/system.json
 )
 
-qt_add_qml_module(Yamd3sVisualPlugin
-    URI "Yamd3s.Visual"
-    VERSION 1.0
-    OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Yamd3s/Visual"
-    SOURCES
-        src/visual/Corner.h
-        src/visual/Corner.cpp
+target_include_directories(Yamd3s PRIVATE src/core src/visual)
+target_link_libraries(Yamd3s
+    PRIVATE
+        Qt6::Core
+        Qt6::Qml
+        Qt6::Quick
+        tomlplusplus::tomlplusplus
 )
 
-target_include_directories(Yamd3sCorePlugin PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+if(TARGET Yamd3splugin)
+    set_target_properties(Yamd3splugin PROPERTIES INSTALL_RPATH "$ORIGIN")
+endif()
+set_target_properties(Yamd3s PROPERTIES INSTALL_RPATH "$ORIGIN")
+
+install(TARGETS Yamd3s Yamd3splugin
+    DESTINATION "${INSTALL_QMLDIR}/Yamd3s"
 )
 
-target_include_directories(Yamd3sVisualPlugin PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/visual
+install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Yamd3s/"
+    DESTINATION "${INSTALL_QMLDIR}/Yamd3s"
+    FILES_MATCHING
+    PATTERN "*.qml"
+    PATTERN "qmldir"
+    PATTERN "*.qmltypes"
 )
 
-target_link_libraries(Yamd3sVisualPlugin PRIVATE Qt6::Quick)
-target_link_libraries(Yamd3sCorePlugin PRIVATE Qt6::Qml tomlplusplus::tomlplusplus)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/shell.qml")
+    install(FILES shell.qml DESTINATION "${INSTALL_QSCONFDIR}")
+endif()
